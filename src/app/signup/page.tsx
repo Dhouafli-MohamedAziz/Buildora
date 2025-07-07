@@ -2,19 +2,55 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { signIn } from 'next-auth/react';
 
 export default function Signup() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
-  const handleSignup = (e: React.FormEvent) => {
+  const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Signup:', { name, email, password });
-    alert('🚀 Compte créé avec succès !');
-    setName('');
-    setEmail('');
-    setPassword('');
+    setError(null);
+
+    try {
+      // Call the signup API
+      const response = await fetch('/api/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to create account');
+      }
+
+      // Optionally sign in the user after signup
+      const signInResult = await signIn('credentials', {
+        email,
+        password,
+        redirect: false,
+      });
+
+      if (signInResult?.error) {
+        setError(signInResult.error);
+        return;
+      }
+
+      // Clear form and redirect to dashboard
+      setName('');
+      setEmail('');
+      setPassword('');
+      router.push('/dashboard');
+    } catch (err: any) {
+      setError(err.message || 'An unexpected error occurred');
+      console.error('Signup error:', err);
+    }
   };
 
   return (

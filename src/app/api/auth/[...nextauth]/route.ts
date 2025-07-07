@@ -22,26 +22,23 @@ export const config = {
         password: { label: "Password", type: "password" }
       },
       async authorize(credentials) {
-        // 1. Validate credentials
+    
         if (!credentials?.email || !credentials?.password) {
           throw new Error("Email and password are required");
         }
 
-        // 2. Query database
-        const [users] = await pool.execute(
-          "SELECT * FROM users WHERE email = ?",
-          [credentials.email]
-        );
 
-        if (users.length === 0) {
-          throw new Error("User not found");
-        }
+const promisePool = pool.promise();
 
-        const user = users[0];
+const rows = await promisePool.execute(
+  "SELECT * FROM users WHERE email = ?",
+  [credentials.email]
+);
+const user = rows;
 
-        // 3. Verify password
+   
         const isValid = await bcrypt.compare(
-  credentials.password as string, // Force TypeScript to treat as string
+  credentials.password as string, 
   user.password as string
 );
 
@@ -49,7 +46,6 @@ export const config = {
           throw new Error("Invalid password");
         }
 
-        // 4. Return user object without password
         return {
           id: user.id,
           name: user.name,
@@ -57,7 +53,7 @@ export const config = {
         };
       }
     })
-    // Add other providers like GitHub here if needed
+
   ],
   callbacks: {
     async jwt({ token, user }) {
@@ -74,13 +70,13 @@ export const config = {
     }
   },
   pages: {
-    signIn: "/login",  // Custom sign-in page
-    error: "/auth/error" // Error page
+    signIn: "/login",
+    error: "/auth/error" 
   },
   secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: "jwt",
-    maxAge: 30 * 24 * 60 * 60 // 30 days
+    maxAge: 30 * 24 * 60 * 60 
   },
   debug: process.env.NODE_ENV === "development"
 } satisfies NextAuthConfig;
