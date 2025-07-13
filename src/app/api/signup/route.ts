@@ -46,7 +46,7 @@ export async function POST(request: Request) {
     const [existingUsers] = await pool.execute(
       'SELECT email FROM users WHERE email = ?',
       [email.toLowerCase()]
-    );
+    ) as any;
     if (Array.isArray(existingUsers) && existingUsers.length > 0) {
       return NextResponse.json(
         { error: 'Email already registered' },
@@ -60,8 +60,8 @@ export async function POST(request: Request) {
 
     // 4. Insert new user into the database
     const [result] = await pool.execute(
-      'INSERT INTO users (username, email, password) VALUES (?, ?, ?)',
-      [name, email.toLowerCase(), hashedPassword]
+      'INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)',
+      [name, email.toLowerCase(), hashedPassword, 1] // role = 1 for regular user
     );
 
     // 5. Return success response
