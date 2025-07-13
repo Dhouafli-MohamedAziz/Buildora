@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { useAuth } from '@/app/contexts/AuthContext';
 
 interface Project {
   id: string;
@@ -11,6 +12,7 @@ interface Project {
 }
 
 export default function DashboardContent() {
+  const { logout, user } = useAuth();
   const [projects, setProjects] = useState<Project[]>([
     {
       id: '1',
@@ -39,19 +41,42 @@ export default function DashboardContent() {
     { label: 'Total Views', value: '1.2K' }
   ];
 
+  const handleLogout = async () => {
+    try {
+      await logout();
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <header className="bg-white shadow">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex justify-between items-center">
-            <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-            <Link 
-              href="/"
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-            >
-              Create New Page
-            </Link>
+            <div className="flex items-center space-x-4">
+              <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
+              {user && (
+                <span className="text-sm text-gray-600">
+                  Welcome, {user.username}!
+                </span>
+              )}
+            </div>
+            <div className="flex items-center space-x-4">
+              <Link 
+                href="/"
+                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                Create New Page
+              </Link>
+              <button 
+                onClick={handleLogout}
+                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+              >
+                Logout
+              </button>
+            </div>
           </div>
         </div>
       </header>

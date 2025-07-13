@@ -1,6 +1,7 @@
 import mysql from 'mysql2/promise' ; 
 import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
+import { createAccessToken, createRefreshToken } from '@/app/lib/jwt';
 // database connection
 const pool = mysql.createPool({
     host: process.env.DB_HOST,
@@ -43,7 +44,18 @@ const pool = mysql.createPool({
                 {message: "Invalid password"}, {status: 400}
             );
         }
-        return NextResponse.json (
+
+        // Generate JWT access and refresh tokens
+        const accessToken = await createAccessToken(
+            user.id.toString(),
+            user.email,
+            user.role ? user.role.toString() : undefined
+        );
+        
+        const refreshToken = await createRefreshToken(user.id.toString());
+
+        // Set HTTP-only cookies with both tokens
+        const response = NextResponse.json(
             {
                 message: "Login successful",
                 user: {
@@ -54,6 +66,25 @@ const pool = mysql.createPool({
             }, 
             {status: 200}
         );
+
+        // Set secure HTTP-only cookies
+        response.cookies.set('access_token', accessToken, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict',
+            maxAge: 15 * 60, // 15 minutes in seconds
+            path: '/'
+        });
+
+        response.cookies.set('refresh_token', refreshToken, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'strict',
+            maxAge: 7 * 24 * 60 * 60, // 7 days in seconds
+            path: '/'
+        });
+
+        return response;
 
     }
     catch (error){
