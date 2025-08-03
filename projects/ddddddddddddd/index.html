@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ddddddddddddd</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .animate-fade-in { animation: fadeIn 0.5s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+</head>
+<body class="bg-white">
+    <div id="root" class="animate-fade-in">
+        <div class="min-h-screen bg-white">
+            <!-- AI-Generated Content will be here -->
+        </div>
+    </div>
+
+      <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+          <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">testimonials</h2>
+          <div class="max-w-4xl mx-auto">
+            import { useState, useEffect } from 'react';
+import { Quote, Star, ChevronLeft, ChevronRight } from 'lucide-react';
+
+const testimonials = [
+  {
+    id: 1,
+    name: "Sophie Martin",
+    role: "Food Blogger",
+    avatar: "/avatars/sophie.jpg",
+    rating: 5,
+    quote: "Une expérience culinaire exceptionnelle. Le chef transforme les produits locaux en véritables œuvres d'art."
+  },
+  {
+    id: 2,
+    name: "Thomas Leroy",
+    role: "Critique gastronomique",
+    avatar: "/avatars/thomas.jpg",
+    rating: 4,
+    quote: "Ambiance chaleureuse et plats innovants. Le risotto aux truffes est à tomber par terre !"
+  },
+  {
+    id: 3,
+    name: "Camille Dubois",
+    role: "Client fidèle",
+    avatar: "/avatars/camille.jpg",
+    rating: 5,
+    quote: "Je reviens chaque semaine tellement la qualité est constante. Service impeccable et carte des vins remarquable."
+  }
+];
+
+const Testimonials = () => {
+  const [current, setCurrent] = useState(0);
+  const [direction, setDirection] = useState('right');
+
+  const nextTestimonial = () => {
+    setDirection('right');
+    setCurrent((prev) => (prev === testimonials.length - 1 ? 0 : prev + 1));
+  };
+
+  const prevTestimonial = () => {
+    setDirection('left');
+    setCurrent((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1));
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      nextTestimonial();
+    }, 8000);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <section aria-labelledby="testimonials-heading" class="py-16 bg-gray-50">
+      <div class="container mx-auto px-4">
+        <h2 id="testimonials-heading" class="text-3xl font-bold text-center mb-12 text-gray-900">
+          Ce que nos clients disent
+        </h2>
+
+        <div class="relative max-w-4xl mx-auto">
+          <div class="overflow-hidden">
+            <div 
+              class={`flex transition-transform duration-500 ease-in-out ${
+                direction === 'right' ? 'transform -translate-x-full' : 'transform translate-x-full'
+              }`}
+              style={{ transform: `translateX(-${current * 100}%)` }}
+            >
+              {testimonials.map((testimonial) => (
+                <div key={testimonial.id} class="w-full flex-shrink-0 px-4">
+                  <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+                    <div class="flex items-center mb-6">
+                      <div class="w-16 h-16 rounded-full overflow-hidden mr-4">
+                        <img 
+                          src={testimonial.avatar} 
+                          alt={`Photo de ${testimonial.name}`} 
+                          class="w-full h-full object-cover"
+                          width={64}
+                          height={64}
+                        />
+                      </div>
+                      <div>
+                        <h3 class="font-semibold text-lg text-gray-900">{testimonial.name}</h3>
+                        <p class="text-gray-600">{testimonial.role}</p>
+                      </div>
+                    </div>
+                    <div class="flex mb-4">
+                      {[...Array(5)].map((_, i) => (
+                        <Star 
+                          key={i} 
+                          class={`w-5 h-5 ${i < testimonial.rating ? 'fill-yellow-400 text-yellow-400' : 'text-gray-300'}`} 
+                        />
+                      ))}
+                    </div>
+                    <Quote class="text-gray-300 w-8 h-8 mb-4" />
+                    <blockquote class="text-gray-700 italic text-lg mb-6">
+                      "{testimonial.quote}"
+                    </blockquote>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <button 
+            onClick={prevTestimonial}
+            aria-label="Témoignage précédent"
+            class="absolute left-0 top-1/2 -translate-y-1/2 -ml-4 bg-white p-2 rounded-full shadow-md hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500"
+          >
+            <ChevronLeft class="w-6 h-6 text-gray-700" />
+          </button>
+          <button 
+            onClick={nextTestimonial}
+            aria-label="Témoignage suivant"
+            class="absolute right-0 top-1/2 -translate-y-1/2 -mr-4 bg-white p-2 rounded-full shadow-md hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500"
+          >
+            <ChevronRight class="w-6 h-6 text-gray-700" />
+          </button>
+        </div>
+
+        <div class="flex justify-center mt-8 space-x-2">
+          {testimonials.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => {
+                setDirection(i > current ? 'right' : 'left');
+                setCurrent(i);
+              }}
+              aria-label={`Aller au témoignage ${i + 1}`}
+              class={`w-3 h-3 rounded-full transition-colors ${i === current ? 'bg-primary-500' : 'bg-gray-300'}`}
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Testimonials;
+          </div>
+        </div>
+      </section>
+</body>
+</html>

@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rr</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .animate-fade-in { animation: fadeIn 0.5s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+</head>
+<body class="bg-white">
+    <div id="root" class="animate-fade-in">
+        <div class="min-h-screen bg-white">
+            <!-- AI-Generated Content will be here -->
+        </div>
+    </div>
+
+      <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+          <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">header</h2>
+          <div class="max-w-4xl mx-auto">
+            <header class="fixed w-full z-50 backdrop-blur-md bg-white/80 shadow-sm">
+  <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16 md:h-20">
+      <!-- Logo -->
+      <div class="flex-shrink-0">
+        <a href="/" class="flex items-center" aria-label="Restaurrent">
+          <svg class="h-8 w-8 text-amber-600" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 2L2 7v10l10 5 10-5V7L12 2zm0 2.8L20 9v6l-8 4-8-4V9l8-4.2zM12 15a3 3 0 110-6 3 3 0 010 6z"/>
+          </svg>
+          <span class="ml-2 text-xl font-bold text-gray-900">Restaurrent</span>
+        </a>
+      </div>
+
+      <!-- Navigation Desktop -->
+      <nav class="hidden md:flex space-x-8">
+        <a href="#features" class="text-gray-700 hover:text-amber-600 transition-colors duration-200 font-medium">Features</a>
+        <a href="#menu" class="text-gray-700 hover:text-amber-600 transition-colors duration-200 font-medium">Menu</a>
+        <a href="#testimonials" class="text-gray-700 hover:text-amber-600 transition-colors duration-200 font-medium">Testimonials</a>
+        <a href="#contact" class="text-gray-700 hover:text-amber-600 transition-colors duration-200 font-medium">Contact</a>
+      </nav>
+
+      <!-- CTA Desktop -->
+      <div class="hidden md:flex items-center space-x-4">
+        <a href="#reservation" class="px-4 py-2 rounded-lg bg-amber-600 text-white font-medium hover:bg-amber-700 transition-colors duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+          Book a table
+        </a>
+      </div>
+
+      <!-- Mobile menu button -->
+      <div class="md:hidden flex items-center">
+        <button id="mobile-menu-button" class="text-gray-700 hover:text-amber-600 focus:outline-none" aria-label="Open menu">
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div id="mobile-menu" class="hidden md:hidden bg-white/95 backdrop-blur-sm">
+    <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+      <a href="#features" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-amber-600 hover:bg-gray-50">Features</a>
+      <a href="#menu" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-amber-600 hover:bg-gray-50">Menu</a>
+      <a href="#testimonials" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-amber-600 hover:bg-gray-50">Testimonials</a>
+      <a href="#contact" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-amber-600 hover:bg-gray-50">Contact</a>
+      <a href="#reservation" class="block px-3 py-2 mt-2 rounded-md text-base font-medium text-white bg-amber-600 hover:bg-amber-700">Book a table</a>
+    </div>
+  </div>
+</header>
+
+<script>
+  document.getElementById('mobile-menu-button').addEventListener('click', function() {
+    const menu = document.getElementById('mobile-menu');
+    menu.classList.toggle('hidden');
+  });
+</script>
+          </div>
+        </div>
+      </section>
+
+      <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+          <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">gallery</h2>
+          <div class="max-w-4xl mx-auto">
+            <!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery - Restaurrent</title>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <section class="py-16 px-4 sm:px-6 lg:px-8 bg-white">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-3xl font-bold text-center text-gray-900 mb-12">Notre Galerie</h2>
+            
+            <!-- Filtres -->
+            <div class="flex flex-wrap justify-center gap-4 mb-12">
+                <button class="px-6 py-2 rounded-full bg-amber-600 text-white font-medium transition-all hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2" data-filter="all">Tout voir</button>
+                <button class="px-6 py-2 rounded-full bg-gray-100 text-gray-800 font-medium transition-all hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2" data-filter="interieur">Intérieur</button>
+                <button class="px-6 py-2 rounded-full bg-gray-100 text-gray-800 font-medium transition-all hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2" data-filter="exterieur">Extérieur</button>
+                <button class="px-6 py-2 rounded-full bg-gray-100 text-gray-800 font-medium transition-all hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:ring-offset-2" data-filter="plats">Nos plats</button>
+            </div>
+            
+            <!-- Grille d'images -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Item 1 -->
+                <div class="gallery-item group relative overflow-hidden rounded-xl shadow-lg transition-all duration-300 hover:shadow-xl" data-category="interieur">
+                    <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" 
+                         alt="Intérieur du restaurant" 
+                         class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300 flex items-center justify-center">
+                        <button class="lightbox-trigger opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 p-3 bg-amber-600 rounded-full text-white">
+                            <i data-lucide="maximize"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Item 2 -->
+                <div class="gallery-item group relative overflow-hidden rounded-xl shadow-lg transition-all duration-300 hover:shadow-xl" data-category="exterieur">
+                    <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1374&q=80" 
+                         alt="Terrasse du restaurant" 
+                         class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300 flex items-center justify-center">
+                        <button class="lightbox-trigger opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 p-3 bg-amber-600 rounded-full text-white">
+                            <i data-lucide="maximize"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Item 3 -->
+                <div class="gallery-item group relative overflow-hidden rounded-xl shadow-lg transition-all duration-300 hover:shadow-xl" data-category="plats">
+                    <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" 
+                         alt="Plat signature" 
+                         class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300 flex items-center justify-center">
+                        <button class="lightbox-trigger opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 p-3 bg-amber-600 rounded-full text-white">
+                            <i data-lucide="maximize"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Item 4 -->
+                <div class="gallery-item group relative overflow-hidden rounded-xl shadow-lg transition-all duration-300 hover:shadow-xl" data-category="interieur">
+                    <img src="https://images.unsplash.com/photo-1587017539504-67cfbddac569?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" 
+                         alt="Bar du restaurant" 
+                         class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300 flex items-center justify-center">
+                        <button class="lightbox-trigger opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 p-3 bg-amber-600 rounded-full text-white">
+                            <i data-lucide="maximize"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Item 5 -->
+                <div class="gallery-item group relative overflow-hidden rounded-xl shadow-lg transition-all duration-300 hover:shadow-xl" data-category="plats">
+                    <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=781&q=80" 
+                         alt="Dessert maison" 
+                         class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300 flex items-center justify-center">
+                        <button class="lightbox-trigger opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 p-3 bg-amber-600 rounded-full text-white">
+                            <i data-lucide="maximize"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Item 6 -->
+                <div class="gallery-item group relative overflow-hidden rounded-xl shadow-lg transition-all duration-300 hover:shadow-xl" data-category="exterieur">
+                    <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" 
+                         alt="Vue panoramique" 
+                         class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition-all duration-300 flex items-center justify-center">
+                        <button class="lightbox-trigger opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 p-3 bg-amber-600 rounded-full text-white">
+                            <i data-lucide="maximize"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Lightbox -->
+        <div id="lightbox" class="fixed inset-0 bg-black bg-opacity-90 z-50 hidden items-center justify-center p-4">
+            <div class="relative max-w-4xl w-full">
+                <button id="close-lightbox" class="absolute -top-12 right-0 text-white hover:text-amber-400 transition-colors">
+                    <i data-lucide="x" class="w-8 h-8"></i>
+                </button>
+                <img id="lightbox-img" src="" alt="" class="w-full max-h-[80vh] object-contain">
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Initialisation des icônes Lucide
+        lucide.createIcons();
+        
+        // Filtrage de la galerie
+        const filterButtons = document.querySelectorAll('[data-filter]');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Mise à jour des boutons actifs
+                filterButtons.forEach(btn => {
+                    btn.classList.remove('bg-amber-600', 'text-white');
+                    btn.classList.add('bg-gray-100', 'text-gray-800');
+                });
+                
+                button.classList.add('bg-amber-600', 'text-white');
+                button.classList.remove('bg-gray-100', 'text-gray-800');
+                
+                // Filtrage des éléments
+                const filter = button.dataset.filter;
+                
+                galleryItems.forEach(item => {
+                    if (filter === 'all' || item.dataset.category === filter) {
+                        item.classList.remove('hidden');
+                    } else {
+                        item.classList.add('hidden');
+                    }
+                });
+            });
+        });
+        
+        // Lightbox
+        const lightboxTriggers = document.querySelectorAll('.lightbox-trigger');
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightbox-img');
+        const closeLightbox = document.getElementById('close-lightbox');
+        
+        lightboxTriggers.forEach(trigger => {
+            trigger.addEventListener('click', (e) => {
+                e.preventDefault();
+                const imgSrc = trigger.closest('.gallery-item').querySelector('img').src;
+                const imgAlt = trigger.closest('.gallery-item').querySelector('img').alt;
+                
+                lightboxImg.src = imgSrc;
+                lightboxImg.alt = imgAlt;
+                lightbox.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+        
+        closeLightbox.addEventListener('click', () => {
+            lightbox.classList.add('hidden');
+            document.body.style.overflow = '';
+        });
+        
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                lightbox.classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+        });
+    </script>
+
+      <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+          <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">footer</h2>
+          <div class="max-w-4xl mx-auto">
+            <footer class="bg-gray-900 text-white py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+      <!-- Logo & Description -->
+      <div class="space-y-4">
+        <h2 class="text-2xl font-bold">Restaurrent</h2>
+        <p class="text-gray-400">Découvrez une expérience culinaire exceptionnelle dans notre restaurant.</p>
+        <div class="flex space-x-4">
+          <a href="#" aria-label="Facebook" class="text-gray-400 hover:text-white transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-facebook"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a href="#" aria-label="Instagram" class="text-gray-400 hover:text-white transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-instagram"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+          </a>
+          <a href="#" aria-label="Twitter" class="text-gray-400 hover:text-white transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-twitter"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Navigation -->
+      <div>
+        <h3 class="text-lg font-semibold mb-4">Navigation</h3>
+        <ul class="space-y-2">
+          <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Accueil</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Menu</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Réservation</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Événements</a></li>
+          <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Contact</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact -->
+      <div>
+        <h3 class="text-lg font-semibold mb-4">Contact</h3>
+        <ul class="space-y-2 text-gray-400">
+          <li class="flex items-start space-x-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin mt-0.5"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span>123 Rue Gourmande, Paris 75000</span>
+          </li>
+          <li class="flex items-center space-x-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            <span>+33 1 23 45 67 89</span>
+          </li>
+          <li class="flex items-center space-x-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            <span>contact@restaurrent.com</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Newsletter -->
+      <div>
+        <h3 class="text-lg font-semibold mb-4">Newsletter</h3>
+        <p class="text-gray-400 mb-4">Abonnez-vous pour recevoir nos offres spéciales.</p>
+        <form class="flex flex-col sm:flex-row gap-2">
+          <input type="email" placeholder="Votre email" class="px-4 py-2 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-amber-500 flex-grow" required>
+          <button type="submit" class="bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded transition-colors font-medium">S'abonner</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
+      <p class="text-gray-400 text-sm mb-4 md:mb-0">© 2023 Restaurrent. Tous droits réservés.</p>
+      <div class="flex space-x-6">
+        <a href="#" class="text-gray-400 hover:text-white text-sm transition-colors">Mentions légales</a>
+        <a href="#" class="text-gray-400 hover:text-white text-sm transition-colors">Politique de confidentialité</a>
+        <a href="#" class="text-gray-400 hover:text-white text-sm transition-colors">CGV</a>
+      </div>
+    </div>
+  </div>
+</footer>
+          </div>
+        </div>
+      </section>
+</body>
+</html>
+          </div>
+        </div>
+      </section>
+</body>
+</html>
