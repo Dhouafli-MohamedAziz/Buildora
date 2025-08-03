@@ -74,7 +74,7 @@ export default function ForgotPassword() {
                     Envoi en cours...
                   </div>
                 ) : (
-                  'Envoyer le lien de réinitialisation'
+                  'Envoye le lien de réinitialisation'
                 )}
               </button>
             </form>
