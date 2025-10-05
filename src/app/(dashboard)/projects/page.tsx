@@ -5,7 +5,6 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import AuthGuard from '@/components/AuthGuard';
 import UserNavbar from '@/components/UserNavbar';
-import Avatar from '@/components/Avatar';
 import { Plus, Folder, Calendar, ArrowRight, Eye, ExternalLink, Code, Download, Zap, Copy } from 'lucide-react';
 
 interface Project {

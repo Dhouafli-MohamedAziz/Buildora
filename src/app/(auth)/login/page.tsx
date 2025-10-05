@@ -49,14 +49,13 @@ export default function Connexion() {
       }
     } catch (err) {
       setError('An unexpected error occurred');
-      console.error('Unexpected error:', err);
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white overflow-hidden relative">
+   <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white overflow-hidden relative">
 
       {/* Animated background blobs */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">

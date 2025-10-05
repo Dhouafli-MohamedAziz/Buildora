@@ -5,9 +5,6 @@ import { useRouter } from 'next/navigation';
 import { useState, useEffect, useRef } from 'react';
 import AuthGuard from '@/components/AuthGuard';
 import AdvancedNavbar from '@/components/UserNavbar';
-import Avatar from '@/components/Avatar';
-
-import DynamicSectionRenderer from '@/components/DynamicSectionRenderer';
 import ProgressiveWebsiteBuilder from '@/components/ProgressiveWebsiteBuilder';
 import HeaderBuilder from '@/components/HeaderBuilder';
 import HeroBuilder from '@/components/HeroBuilder';
@@ -24,31 +21,18 @@ import {
 
 // Sections with descriptions
 const sectionsWithDescription = [
-  { name: "Header", desc: "Barre du haut avec ton logo et ton menu de navigation.", icon: <Layout size={20} /> },
-  { name: "Hero", desc: "Grande section d'accueil avec un titre puissant et une image.", icon: <Zap size={20} /> },
-  { name: "Services", desc: "Liste des services ou prestations que tu proposes.", icon: <Menu size={20} /> },
-  { name: "Features", desc: "Fonctionnalités principales mises en avant avec icônes.", icon: <Palette size={20} /> },
-  { name: "Testimonials", desc: "Avis et témoignages de tes clients pour donner confiance.", icon: <User size={20} /> },
-  { name: "FAQ", desc: "Foire aux questions pour anticiper les besoins des visiteurs.", icon: <ChevronDown size={20} /> },
-  { name: "Gallery", desc: "Galerie d'images pour présenter tes réalisations ou produits.", icon: <ImageIcon size={20} /> },
-  { name: "Pricing", desc: "Tarifs et abonnements de tes services.", icon: <Download size={20} /> },
-  { name: "Contact", desc: "Formulaire ou informations pour te contacter.", icon: <Share2 size={20} /> },
-  { name: "CTA", desc: "Appel à l'action fort pour convertir les visiteurs.", icon: <ChevronRight size={20} /> },
-  { name: "Footer", desc: "Pied de page avec liens, réseaux sociaux, copyright.", icon: <Layout size={20} /> }
+  { name: "Header", desc: "Top bar with your logo and navigation menu.", icon: <Layout size={20} /> },
+  { name: "Hero", desc: "Large hero section with a powerful headline and an image.", icon: <Zap size={20} /> },
+  { name: "Services", desc: "List of services you offer.", icon: <Menu size={20} /> },
+  { name: "Features", desc: "Key features highlighted with icons.", icon: <Palette size={20} /> },
+  { name: "Testimonials", desc: "Customer reviews and testimonials to build trust.", icon: <User size={20} /> },
+  { name: "FAQ", desc: "Frequently Asked Questions (FAQ) to anticipate visitor needs.", icon: <ChevronDown size={20} /> },
+  { name: "Gallery", desc: "Image gallery to showcase your projects or products.", icon: <ImageIcon size={20} /> },
+  { name: "Pricing", desc: "Pricing and subscription plans for your services.", icon: <Download size={20} /> },
+  { name: "Contact", desc: "Contact form or information to get in touch.", icon: <Share2 size={20} /> },
+  { name: "CTA", desc: "Strong call-to-action to convert visitors.", icon: <ChevronRight size={20} /> },
+  { name: "Footer", desc: "Footer with links, social media, and copyright.", icon: <Layout size={20} /> }
 ];
-
-const templateStyles = [
-  { name: "modern", label: "Moderne" },
-  { name: "minimal", label: "Minimaliste" },
-  { name: "bold", label: "Audacieux" },
-  { name: "corporate", label: "Corporatif" },
-  { name: "creative", label: "Créatif" },
-  { name: "glassmorphic", label: "Glassmorphisme" },
-  { name: "retro", label: "Rétro" },
-  { name: "futuristic", label: "Futuriste" }
-];
-
-
 
 export default function Dashboard() {
   const { data: session } = useSession();
@@ -83,15 +67,6 @@ export default function Dashboard() {
   const [currentGeneratingSection, setCurrentGeneratingSection] = useState<string | null>(null);
   const [sectionApprovalStatus, setSectionApprovalStatus] = useState<Record<string, 'pending' | 'approved' | 'rejected'>>({});
   
-  // Settings state
-  const [darkMode, setDarkMode] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const savedMode = localStorage.getItem('buildora-darkMode');
-      return savedMode !== null ? JSON.parse(savedMode) : true;
-    }
-    return true;
-  });
-  
   // HeaderBuilder state
   const [showHeaderBuilder, setShowHeaderBuilder] = useState(false);
   const [headerConfig, setHeaderConfig] = useState<any>(null);
@@ -102,92 +77,7 @@ export default function Dashboard() {
   
   // FeaturesBuilder state
   const [showFeaturesBuilder, setShowFeaturesBuilder] = useState(false);
-  
-  // Debug FeaturesBuilder state
-  useEffect(() => {
-    console.log('=== FEATURES BUILDER STATE CHANGED ===');
-    console.log('showFeaturesBuilder:', showFeaturesBuilder);
-  }, [showFeaturesBuilder]);
   const [featuresConfig, setFeaturesConfig] = useState<any>(null);
-  
-  // Debug featuresConfig state
-  useEffect(() => {
-    console.log('=== FEATURES CONFIG STATE CHANGED ===');
-    console.log('featuresConfig:', featuresConfig);
-  }, [featuresConfig]);
-  
-
-  
-  const [settingsOpen, setSettingsOpen] = useState(false);
-  const [selectedColorTheme, setSelectedColorTheme] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const savedTheme = localStorage.getItem('buildora-colorTheme');
-      return savedTheme !== null ? JSON.parse(savedTheme) : null;
-    }
-    return null;
-  });
-  
-  const [previewCode, setPreviewCode] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const savedPreview = localStorage.getItem('buildora-previewCode');
-      return savedPreview !== null ? JSON.parse(savedPreview) : false;
-    }
-    return false;
-  });
-  
-  const [progressPercentage, setProgressPercentage] = useState(0);
-  const [templateStyle, setTemplateStyle] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const savedStyle = localStorage.getItem('buildora-templateStyle');
-      return savedStyle !== null ? JSON.parse(savedStyle) : 'modern';
-    }
-    return 'modern';
-  });
-  
-  const [helpModalOpen, setHelpModalOpen] = useState(false);
-  const [recentProjects, setRecentProjects] = useState<any[]>([]);
-  const [projectsModalOpen, setProjectsModalOpen] = useState(false);
-  const chatEndRef = useRef<HTMLDivElement>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const handleLogout = async () => {
-    await signOut({ redirect: false });
-    router.push('/login');
-  };
-
-  // HeaderBuilder functions
-  const handleHeaderBuilderComplete = (config: any) => {
-    setHeaderConfig(config);
-    setShowHeaderBuilder(false);
-    // You can use this config to generate a custom header
-    console.log('Header config completed:', config);
-  };
-
-  const handleHeaderBuilderBack = () => {
-    setShowHeaderBuilder(false);
-  };
-
-  // HeroBuilder functions
-  const handleHeroBuilderComplete = (config: any) => {
-    setHeroConfig(config);
-    setShowHeroBuilder(false);
-    console.log('Hero config completed:', config);
-  };
-
-  const handleHeroBuilderBack = () => {
-    setShowHeroBuilder(false);
-  };
-
-  const handleFeaturesBuilderComplete = (config: any) => {
-    console.log('=== FEATURES BUILDER COMPLETE ===');
-    console.log('Config received:', config);
-    setFeaturesConfig(config);
-    setShowFeaturesBuilder(false);
-  };
-
-  const handleFeaturesBuilderBack = () => {
-    setShowFeaturesBuilder(false);
-  };
 
   // PricingBuilder state
   const [showPricingBuilder, setShowPricingBuilder] = useState(false);
@@ -220,6 +110,57 @@ export default function Dashboard() {
   // FooterBuilder state
   const [showFooterBuilder, setShowFooterBuilder] = useState(false);
   const [footerConfig, setFooterConfig] = useState<any>(null);
+  
+  const [selectedColorTheme, setSelectedColorTheme] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const savedTheme = localStorage.getItem('buildora-colorTheme');
+      return savedTheme !== null ? JSON.parse(savedTheme) : null;
+    }
+    return null; 
+  });
+  
+  const [previewCode, setPreviewCode] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const savedPreview = localStorage.getItem('buildora-previewCode');
+      return savedPreview !== null ? JSON.parse(savedPreview) : false;
+    }
+    return false;
+  });
+  
+  const [progressPercentage, setProgressPercentage] = useState(0);
+  const [templateStyle, setTemplateStyle] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const savedStyle = localStorage.getItem('buildora-templateStyle');
+      return savedStyle !== null ? JSON.parse(savedStyle) : 'modern';
+    }
+    return 'modern';
+  });
+  
+  const [helpModalOpen, setHelpModalOpen] = useState(false);
+  const [recentProjects, setRecentProjects] = useState<any[]>([]);
+  const [projectsModalOpen, setProjectsModalOpen] = useState(false);
+  const chatEndRef = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // HeaderBuilder functions
+  const handleHeaderBuilderComplete = (config: any) => {
+    setHeaderConfig(config);
+    setShowHeaderBuilder(false);
+  };
+
+  const handleHeaderBuilderBack = () => {
+    setShowHeaderBuilder(false);
+  };
+
+  // HeroBuilder functions
+  const handleHeroBuilderComplete = (config: any) => {
+    setHeroConfig(config);
+    setShowHeroBuilder(false);
+  };
+
+  const handleHeroBuilderBack = () => {
+    setShowHeroBuilder(false);
+  };
 
   // PricingBuilder functions
   const handlePricingBuilderComplete = (config: any) => {
@@ -336,12 +277,11 @@ export default function Dashboard() {
   // Save settings to localStorage
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      localStorage.setItem('buildora-darkMode', JSON.stringify(darkMode));
       localStorage.setItem('buildora-colorTheme', JSON.stringify(selectedColorTheme));
       localStorage.setItem('buildora-previewCode', JSON.stringify(previewCode));
       localStorage.setItem('buildora-templateStyle', JSON.stringify(templateStyle));
     }
-  }, [darkMode, selectedColorTheme, previewCode, templateStyle]);
+  }, [selectedColorTheme, previewCode, templateStyle]);
 
   // Auto-generate next section when current one is approved
   useEffect(() => {

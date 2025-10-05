@@ -4,7 +4,6 @@ import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 import AuthGuard from '@/components/AuthGuard';
 import AdvancedNavbar from '@/components/UserNavbar';
-import Avatar from '@/components/Avatar';
 
 interface FAQ {
   id: string;
