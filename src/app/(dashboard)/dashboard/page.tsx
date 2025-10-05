@@ -35,112 +35,144 @@ const sectionsWithDescription = [
 ];
 
 export default function Dashboard() {
-  const { data: session } = useSession();
-  const router = useRouter();
 
-  // Core state management
-  const [step, setStep] = useState(0);
-  const [projectName, setProjectName] = useState('');
-  const [projectDescription, setProjectDescription] = useState('');
-  const [messages, setMessages] = useState<{ type: 'bot' | 'user', text: string }[]>([]);
-  const [currentBotMessage, setCurrentBotMessage] = useState('');
-  const [fullBotText, setFullBotText] = useState('');
-  const [isTyping, setIsTyping] = useState(false);
-  const [input, setInput] = useState('');
-  const [logo, setLogo] = useState<File | null>(null);
-  const [logoPreview, setLogoPreview] = useState<string | null>(null);
-  const [selectedSections, setSelectedSections] = useState<string[]>([]);
-  const [creatingFiles, setCreatingFiles] = useState(false);
-  const [projectReady, setProjectReady] = useState(false);
-  const [fullscreen, setFullscreen] = useState(false);
-  
-  // Iterative feedback state
-  const [currentSectionIndex, setCurrentSectionIndex] = useState(0);
-  const [sectionCodes, setSectionCodes] = useState<{ [key: string]: string }>({});
-  const [sectionFeedback, setSectionFeedback] = useState<{ [key: string]: string[] }>({});
-  const [isGeneratingSection, setIsGeneratingSection] = useState(false);
-  const [showSectionPreview, setShowSectionPreview] = useState(false);
-  const [currentSectionCode, setCurrentSectionCode] = useState('');
-  const [completedSections, setCompletedSections] = useState<string[]>([]);
-  
-  // Generation state
-  const [currentGeneratingSection, setCurrentGeneratingSection] = useState<string | null>(null);
-  const [sectionApprovalStatus, setSectionApprovalStatus] = useState<Record<string, 'pending' | 'approved' | 'rejected'>>({});
-  
-  // HeaderBuilder state
-  const [showHeaderBuilder, setShowHeaderBuilder] = useState(false);
-  const [headerConfig, setHeaderConfig] = useState<any>(null);
+  ////DEFINING VARIABLES //////
+    const { data: session } = useSession();
+    const router = useRouter();
 
-  // State for HeroBuilder
-  const [showHeroBuilder, setShowHeroBuilder] = useState(false);
-  const [heroConfig, setHeroConfig] = useState<any>(null);
-  
-  // FeaturesBuilder state
-  const [showFeaturesBuilder, setShowFeaturesBuilder] = useState(false);
-  const [featuresConfig, setFeaturesConfig] = useState<any>(null);
+    // Core state management
+    const [step, setStep] = useState(0);
+    const [projectName, setProjectName] = useState('');
+    const [projectDescription, setProjectDescription] = useState('');
+    const [messages, setMessages] = useState<{ type: 'bot' | 'user', text: string }[]>([]);
+    const [currentBotMessage, setCurrentBotMessage] = useState('');
+    const [fullBotText, setFullBotText] = useState('');
+    const [isTyping, setIsTyping] = useState(false);
+    const [input, setInput] = useState('');
+    const [logo, setLogo] = useState<File | null>(null);
+    const [logoPreview, setLogoPreview] = useState<string | null>(null);
+    const [selectedSections, setSelectedSections] = useState<string[]>([]);
+    const [creatingFiles, setCreatingFiles] = useState(false);
+    const [projectReady, setProjectReady] = useState(false);
+    const [fullscreen, setFullscreen] = useState(false);
+      
+    // Iterative feedback state
+    const [currentSectionIndex, setCurrentSectionIndex] = useState(0);
+    const [sectionCodes, setSectionCodes] = useState<{ [key: string]: string }>({});
+    const [sectionFeedback, setSectionFeedback] = useState<{ [key: string]: string[] }>({});
+    const [isGeneratingSection, setIsGeneratingSection] = useState(false);
+    const [showSectionPreview, setShowSectionPreview] = useState(false);
+    const [currentSectionCode, setCurrentSectionCode] = useState('');
+    const [completedSections, setCompletedSections] = useState<string[]>([]);
+    
+    // Generation state
+    const [currentGeneratingSection, setCurrentGeneratingSection] = useState<string | null>(null);
+    const [sectionApprovalStatus, setSectionApprovalStatus] = useState<Record<string, 'pending' | 'approved' | 'rejected'>>({});
+    
+    // HeaderBuilder state
+    const [showHeaderBuilder, setShowHeaderBuilder] = useState(false);
+    const [headerConfig, setHeaderConfig] = useState<any>(null);
 
-  // PricingBuilder state
-  const [showPricingBuilder, setShowPricingBuilder] = useState(false);
-  const [pricingConfig, setPricingConfig] = useState<any>(null);
+    // State for HeroBuilder
+    const [showHeroBuilder, setShowHeroBuilder] = useState(false);
+    const [heroConfig, setHeroConfig] = useState<any>(null);
   
-  // ServicesBuilder state
-  const [showServicesBuilder, setShowServicesBuilder] = useState(false);
-  const [servicesConfig, setServicesConfig] = useState<any>(null);
+    // FeaturesBuilder state
+    const [showFeaturesBuilder, setShowFeaturesBuilder] = useState(false);
+    const [featuresConfig, setFeaturesConfig] = useState<any>(null);
+
+    // PricingBuilder state
+    const [showPricingBuilder, setShowPricingBuilder] = useState(false);
+    const [pricingConfig, setPricingConfig] = useState<any>(null);
+    
+    // ServicesBuilder state
+    const [showServicesBuilder, setShowServicesBuilder] = useState(false);
+    const [servicesConfig, setServicesConfig] = useState<any>(null);
+    
+    // TestimonialsBuilder state
+    const [showTestimonialsBuilder, setShowTestimonialsBuilder] = useState(false);
+    const [testimonialsConfig, setTestimonialsConfig] = useState<any>(null);
+    
+    // FAQBuilder state
+    const [showFAQBuilder, setShowFAQBuilder] = useState(false);
+    const [faqConfig, setFaqConfig] = useState<any>(null);
+    
+    // GalleryBuilder state
+    const [showGalleryBuilder, setShowGalleryBuilder] = useState(false);
+    const [galleryConfig, setGalleryConfig] = useState<any>(null);
+    
+    // ContactBuilder state
+    const [showContactBuilder, setShowContactBuilder] = useState(false);
+    const [contactConfig, setContactConfig] = useState<any>(null);
+    
+    // CTABuilder state
+    const [showCTABuilder, setShowCTABuilder] = useState(false);
+    const [ctaConfig, setCtaConfig] = useState<any>(null);
+    
+    // FooterBuilder state
+    const [showFooterBuilder, setShowFooterBuilder] = useState(false);
+    const [footerConfig, setFooterConfig] = useState<any>(null);
   
-  // TestimonialsBuilder state
-  const [showTestimonialsBuilder, setShowTestimonialsBuilder] = useState(false);
-  const [testimonialsConfig, setTestimonialsConfig] = useState<any>(null);
+    const [progressPercentage, setProgressPercentage] = useState(0);
   
-  // FAQBuilder state
-  const [showFAQBuilder, setShowFAQBuilder] = useState(false);
-  const [faqConfig, setFaqConfig] = useState<any>(null);
-  
-  // GalleryBuilder state
-  const [showGalleryBuilder, setShowGalleryBuilder] = useState(false);
-  const [galleryConfig, setGalleryConfig] = useState<any>(null);
-  
-  // ContactBuilder state
-  const [showContactBuilder, setShowContactBuilder] = useState(false);
-  const [contactConfig, setContactConfig] = useState<any>(null);
-  
-  // CTABuilder state
-  const [showCTABuilder, setShowCTABuilder] = useState(false);
-  const [ctaConfig, setCtaConfig] = useState<any>(null);
-  
-  // FooterBuilder state
-  const [showFooterBuilder, setShowFooterBuilder] = useState(false);
-  const [footerConfig, setFooterConfig] = useState<any>(null);
-  
-  const [selectedColorTheme, setSelectedColorTheme] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const savedTheme = localStorage.getItem('buildora-colorTheme');
-      return savedTheme !== null ? JSON.parse(savedTheme) : null;
+    const [recentProjects, setRecentProjects] = useState<any[]>([]);
+    const chatEndRef = useRef<HTMLDivElement>(null);
+    const fileInputRef = useRef<HTMLInputElement>(null);
+
+
+
+  // Bot Message 
+  const sendBotMessage = (text: string) => {
+    setIsTyping(true);
+    setFullBotText(text);
+  };
+
+  // Initial welcome message
+  useEffect(() => {
+    setTimeout(() => {
+      sendBotMessage("Hello! I’m Buildora 🤖, your AI assistant for quickly creating a landing page. Say “Hi” to get started!");
+    }, 500);
+  }, []);
+
+  // Handle typing animation
+  useEffect(() => {
+    if (isTyping && fullBotText) {
+      let index = 0;
+      const interval = setInterval(() => {
+        if (index <= fullBotText.length) {
+          setCurrentBotMessage(fullBotText.slice(0, index));
+          index++;
+        } else {
+          clearInterval(interval);
+          setIsTyping(false);
+          setMessages(prev => [...prev, { type: 'bot', text: fullBotText }]);
+          setCurrentBotMessage('');
+          setFullBotText('');
+        }
+      }, 20); // Adjust speed here
+
+      return () => clearInterval(interval);
     }
-    return null; 
-  });
+  }, [isTyping, fullBotText]);
+
+
+  // Auto-scroll to bottom of chat
+  useEffect(() => {
+    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages, currentBotMessage]);  
   
-  const [previewCode, setPreviewCode] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const savedPreview = localStorage.getItem('buildora-previewCode');
-      return savedPreview !== null ? JSON.parse(savedPreview) : false;
-    }
-    return false;
-  });
-  
-  const [progressPercentage, setProgressPercentage] = useState(0);
-  const [templateStyle, setTemplateStyle] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const savedStyle = localStorage.getItem('buildora-templateStyle');
-      return savedStyle !== null ? JSON.parse(savedStyle) : 'modern';
-    }
-    return 'modern';
-  });
-  
-  const [helpModalOpen, setHelpModalOpen] = useState(false);
-  const [recentProjects, setRecentProjects] = useState<any[]>([]);
-  const [projectsModalOpen, setProjectsModalOpen] = useState(false);
-  const chatEndRef = useRef<HTMLDivElement>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  // Handle user input
+  const handleSend = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!input.trim()) return;
+
+    const userInput = input.trim();
+    setInput('');
+    setMessages(prev => [...prev, { type: 'user', text: userInput }]);
+    await processInput(userInput);
+  };
+
+
 
   // HeaderBuilder functions
   const handleHeaderBuilderComplete = (config: any) => {
@@ -253,7 +285,7 @@ export default function Dashboard() {
 
 
 
-  const userName = session?.user?.name || session?.user?.email || 'User';
+
 
   // Load recent projects from localStorage
   useEffect(() => {
@@ -265,23 +297,7 @@ export default function Dashboard() {
     }
   }, []);
 
-  // Initial welcome message
-  useEffect(() => {
-    if (messages.length === 0) {
-      setTimeout(() => {
-        sendBotMessage("Bonjour ! Je suis **Buildora** 🤖, ton assistant IA pour créer rapidement une landing page. Dis-moi **'Salut'** pour commencer !");
-      }, 500);
-    }
-  }, []);
 
-  // Save settings to localStorage
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('buildora-colorTheme', JSON.stringify(selectedColorTheme));
-      localStorage.setItem('buildora-previewCode', JSON.stringify(previewCode));
-      localStorage.setItem('buildora-templateStyle', JSON.stringify(templateStyle));
-    }
-  }, [selectedColorTheme, previewCode, templateStyle]);
 
   // Auto-generate next section when current one is approved
   useEffect(() => {
@@ -294,10 +310,7 @@ export default function Dashboard() {
     }
   }, [creatingFiles, isGeneratingSection, showSectionPreview, currentSectionIndex, selectedSections.length]);
 
-  // Auto-scroll to bottom of chat
-  useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, currentBotMessage]);
+
 
   // Handle section generation when index changes
   useEffect(() => {
@@ -331,26 +344,7 @@ export default function Dashboard() {
     }
   }, [currentSectionIndex, creatingFiles, isGeneratingSection, showSectionPreview, projectReady]);
 
-  // Handle typing animation
-  useEffect(() => {
-    if (isTyping && fullBotText) {
-      let index = 0;
-      const interval = setInterval(() => {
-        if (index <= fullBotText.length) {
-          setCurrentBotMessage(fullBotText.slice(0, index));
-          index++;
-        } else {
-          clearInterval(interval);
-          setIsTyping(false);
-          setMessages(prev => [...prev, { type: 'bot', text: fullBotText }]);
-          setCurrentBotMessage('');
-          setFullBotText('');
-        }
-      }, 30); // Adjust speed here
 
-      return () => clearInterval(interval);
-    }
-  }, [isTyping, fullBotText]);
 
   const saveToRecentProjects = (project: any) => {
     const updated = [project, ...recentProjects.filter(p => p.name !== project.name)].slice(0, 10);
@@ -358,64 +352,36 @@ export default function Dashboard() {
     localStorage.setItem('buildora-recentProjects', JSON.stringify(updated));
   };
 
-  const sendBotMessage = (text: string) => {
-    setIsTyping(true);
-    setFullBotText(text);
-  };
+  
 
   const showNotification = (message: string, type: 'success' | 'error' | 'info' = 'info') => {
     console.log(`${type.toUpperCase()}: ${message}`);
   };
 
-  const handleSend = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!input.trim()) return;
 
-    const userInput = input.trim();
-    setInput('');
-    setMessages(prev => [...prev, { type: 'user', text: userInput }]);
-
-
-
-    await processInput(userInput);
-  };
 
   const processInput = async (userInput: string) => {
     if (step === 0) {
       // Welcome step - user responds, then ask for project name
-      sendBotMessage("Super ! Tout d'abord, quel est le **nom de ton projet** ? (un mot sans espace qui servira d'identifiant)");
+      sendBotMessage("First of all, what is the name of your project? (a single word without spaces that will serve as an identifier)");
       setStep(1);
-    } else if (step === 1) {
+    }
+    else if (step === 1) {
       // Project name step
       if (userInput.includes(' ')) {
-        sendBotMessage("⚠️ Merci d'utiliser un mot sans espace pour le nom du projet !");
+        sendBotMessage("⚠️ Thank you for using a single word without spaces for the project name!");
       } else {
         setProjectName(userInput);
-        
-        // Check if user has design preferences from design studio
-        const designDescription = localStorage.getItem('buildora-design-description');
-        if (designDescription) {
-          sendBotMessage(`Parfait ! J'ai détecté tes préférences de design : ${designDescription} Maintenant, peux-tu décrire **ton projet en quelques phrases** ? Plus ta description sera précise, meilleur sera le résultat !`);
-        } else {
-          sendBotMessage("Parfait ! Maintenant, peux-tu décrire **ton projet en quelques phrases** ? Plus ta description sera précise, meilleur sera le résultat !");
-        }
+        sendBotMessage("Perfect! Now, can you describe your project in a few sentences? The more detailed your description is, the better the result will be!");
         setStep(2);
       }
-    } else if (step === 2) {
+    } 
+    else if (step === 2) {
       // Project description step
-      let finalDescription = userInput;
-      
-      // Add design preferences to the description if they exist
-      const designDescription = localStorage.getItem('buildora-design-description');
-      if (designDescription) {
-        finalDescription = `${userInput} ${designDescription}`;
-        // Clear the design description after using it
-        localStorage.removeItem('buildora-design-description');
-      }
-      
-      setProjectDescription(finalDescription);
+      let Description = userInput;
+      setProjectDescription(Description);
       sendBotMessage("🎨 Parfait ! Maintenant j'ai besoin de ton logo. Clique sur le bouton pour uploader ton image.");
-      setStep(3); // Logo upload step
+      setStep(5); // Logo upload step
     }
   };
 
@@ -577,7 +543,6 @@ export default function Dashboard() {
           sectionName: currentSection,
           projectDescription: projectDescription,
           projectName: projectName,
-          theme: selectedColorTheme,
           headerConfig: currentSection === 'Header' ? headerConfig : undefined,
           heroConfig: currentSection === 'Hero' ? heroConfig : undefined,
           featuresConfig: currentSection === 'Features' ? featuresConfig : undefined,
@@ -680,7 +645,6 @@ export default function Dashboard() {
         body: JSON.stringify({
           sectionName: currentSection,
           projectDescription: projectDescription,
-          theme: selectedColorTheme,
           feedback: feedback,
           previousCode: sectionCodes[currentSection]
         })
@@ -806,8 +770,6 @@ export default function Dashboard() {
         description: projectDescription,
         sections: selectedSections,
         logo: logoPreview,
-        style: templateStyle,
-        theme: selectedColorTheme,
         createdAt: new Date().toISOString()
       };
 
@@ -931,11 +893,8 @@ export default function Dashboard() {
     setProjectDescription(project.description);
     setSelectedSections(project.sections);
     setLogoPreview(project.logo);
-    setTemplateStyle(project.style);
-    setSelectedColorTheme(project.theme);
     setProjectReady(true);
     setProgressPercentage(100);
-    setProjectsModalOpen(false);
     sendBotMessage(`Projet "${project.name}" chargé avec succès !`);
   };
 

@@ -36,8 +36,6 @@ export default function UserNavbar({ className = '' }: UserNavbarProps) {
   const navItems = [
     { id: 'dashboard', name: 'Dashboard', href: '/dashboard', icon: null, badge: null },
     { id: 'projects', name: 'Projects', href: '/projects', icon: null, badge: null },
-    { id: 'design-studio', name: 'Design Studio', href: '/design-studio', icon: null, badge: null },
-  
   ];
 
   return (
