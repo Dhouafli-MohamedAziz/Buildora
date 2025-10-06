@@ -172,8 +172,6 @@ export default function Dashboard() {
     await processInput(userInput);
   };
 
-
-
   // HeaderBuilder functions
   const handleHeaderBuilderComplete = (config: any) => {
     setHeaderConfig(config);
@@ -283,10 +281,6 @@ export default function Dashboard() {
     setShowFooterBuilder(false);
   };
 
-
-
-
-
   // Load recent projects from localStorage
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -296,8 +290,6 @@ export default function Dashboard() {
       }
     }
   }, []);
-
-
 
   // Auto-generate next section when current one is approved
   useEffect(() => {
@@ -380,34 +372,8 @@ export default function Dashboard() {
       // Project description step
       let Description = userInput;
       setProjectDescription(Description);
-      sendBotMessage("🎨 Parfait ! Maintenant j'ai besoin de ton logo. Clique sur le bouton pour uploader ton image.");
-      setStep(5); // Logo upload step
-    }
-  };
-
-  const handleLogoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setLogo(file);
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setLogoPreview(e.target?.result as string);
-      };
-      reader.readAsDataURL(file);
-      
-      setMessages(prev => [...prev, { type: 'user', text: `Logo uploadé : ${file.name}` }]);
-      
-      // Delay slightly for better UX
-      setTimeout(() => {
-        sendBotMessage("✅ Super ! Ton logo est prêt. Veux-tu continuer avec ce logo ou le changer ?");
-        setStep(4); // Logo confirmation step
-      }, 500);
-    }
-  };
-
-  const explainSections = async () => {
-    sendBotMessage("✅ Parfait ! Maintenant choisis les sections que tu veux dans ta landing page :");
-    setStep(5); // Section selection step
+      sendBotMessage("Great! Now, select the sections for your landing page:");
+      setStep(3);    }
   };
 
   const toggleSection = (section: string) => {
@@ -418,16 +384,6 @@ export default function Dashboard() {
     );
   };
 
-  function LoadingDots() {
-    return (
-      <div className="flex space-x-1">
-        <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce"></div>
-        <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-        <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
-      </div>
-    );
-  }
-
   const startIterativeGeneration = async () => {
     if (selectedSections.length === 0) {
       showNotification('Sélectionne au moins une section', 'error');
@@ -435,7 +391,7 @@ export default function Dashboard() {
     }
 
     setCreatingFiles(true);
-    setStep(6); // Generation step
+    setStep(4); // Generation step
     
     try {
       // Upload logo if exists
@@ -1007,96 +963,8 @@ export default function Dashboard() {
               <div className="p-6 border-t border-white/10 bg-white/5">
 
                 {step === 3 ? (
-                  <div className="flex flex-col">
-                    <div 
-                      onClick={() => fileInputRef.current?.click()}
-                      className="cursor-pointer p-6 border-2 border-dashed rounded-lg flex flex-col items-center justify-center border-white/20 hover:border-white/30 bg-white/5 transition-all duration-300 hover:scale-105 hover:shadow-lg"
-                    >
-                      {logoPreview ? (
-                        <div className="flex flex-col items-center">
-                          <img src={logoPreview} alt="Logo Preview" className="h-16 object-contain mb-2" />
-                          <p className="text-sm text-center">
-                            {logo?.name}
-                            <button 
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setLogo(null);
-                                setLogoPreview(null);
-                              }}
-                              className="ml-2 text-red-400 hover:text-red-300"
-                            >
-                              <X size={16} />
-                            </button>
-                          </p>
-                        </div>
-                      ) : (
-                        <>
-                          <ImageIcon size={32} className="text-gray-400 mb-2" />
-                          <p className="text-sm font-medium">Cliquez pour uploader votre logo</p>
-                          <p className="text-xs mt-1 text-center">
-                            Format recommandé : PNG ou SVG<br />avec fond transparent
-                          </p>
-                        </>
-                      )}
-                    </div>
-                    
-                    <input
-                      ref={fileInputRef}
-                      type="file"
-                      accept="image/*"
-                      onChange={handleLogoUpload}
-                      className="hidden"
-                    />
-                    
-                    <button
-                      onClick={() => {
-                        if (logo) {
-                          explainSections();
-                        } else {
-                          fileInputRef.current?.click();
-                        }
-                      }}
-                      className="mt-3 w-full py-3 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-lg font-medium text-sm transition-colors"
-                    >
-                      {logo ? 'Continuer' : 'Sélectionner un fichier'}
-                    </button>
-                  </div>
-                ) : step === 4 ? (
                   <div className="flex flex-col gap-4">
-                    <div className="text-center">
-                      <h3 className="font-medium mb-4">Confirmer le logo</h3>
-                      <div className="bg-white/10 rounded-lg p-4 mb-4">
-                        <img src={logoPreview || ''} alt="Logo Preview" className="h-20 object-contain mx-auto mb-2" />
-                        <p className="text-sm text-gray-300">{logo?.name}</p>
-                      </div>
-                    </div>
-                    
-                    <div className="flex gap-2">
-                      <button
-                        onClick={() => fileInputRef.current?.click()}
-                        className="flex-1 px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition-all"
-                      >
-                        Changer le logo
-                      </button>
-                      <button
-                        onClick={() => explainSections()}
-                        className="flex-1 px-4 py-2 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-lg transition-all"
-                      >
-                        Continuer avec ce logo
-                      </button>
-                    </div>
-                    
-                    <input
-                      ref={fileInputRef}
-                      type="file"
-                      accept="image/*"
-                      onChange={handleLogoUpload}
-                      className="hidden"
-                    />
-                  </div>
-                ) : step === 5 ? (
-                  <div className="flex flex-col gap-4">
-                    <h3 className="font-medium">Sélectionne les sections pour ta landing page :</h3>
+                    <h3 className="font-medium">Select the sections for your landing page:</h3>
                     <div className="grid grid-cols-2 gap-3">
                       {sectionsWithDescription.map((section, index) => (
                         <div key={section.name} className="relative">
@@ -1415,7 +1283,7 @@ export default function Dashboard() {
                       </button>
                     </div>
                   </div>
-                ) : step === 6 ? (
+                ) : step === 4 ? (
                   showSectionPreview && selectedSections[currentSectionIndex] && sectionCodes[selectedSections[currentSectionIndex]] ? (
                     <div className="flex flex-col gap-4">
                       <div className="text-center">
