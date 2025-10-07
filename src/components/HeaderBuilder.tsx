@@ -1,11 +1,10 @@
-'use client';
+ 'use client';
 
 import React, { useState } from 'react';
 import { 
   ArrowLeft, ArrowRight, Check, X, Layout, Image as ImageIcon, 
-  Menu, Search, User, Home, Info, Phone, Settings, Palette,
-  ChevronDown, ChevronRight, Upload, Trash2, Eye, EyeOff,
-  Type, Droplets, Sparkles, Zap, Paintbrush
+  Menu, Search, User, Palette, ChevronRight, Upload, Trash2,
+  Type, Sparkles, Zap, Paintbrush
 } from 'lucide-react';
 
 interface HeaderConfig {
@@ -65,7 +64,7 @@ interface HeaderConfig {
 
 interface HeaderBuilderProps {
   projectName: string;
-  onComplete: (config: HeaderConfig) => void;
+  onComplete: (config: HeaderConfig ) => void;
   onBack: () => void;
 }
 
@@ -125,7 +124,68 @@ const HeaderBuilder: React.FC<HeaderBuilderProps> = ({ projectName, onComplete, 
       borders: 'rounded',
       animations: 'fade',
     },
-  });
+  }
+  
+);
+/*
+  // Function to generate a prompt string from the current config
+  const generatePromptFromConfig = (config: HeaderConfig): string => {
+    let prompt = `Create a website header with the following configuration:\n\n`;
+
+    // Logo
+    if (config.logo.type === 'text') {
+      prompt += `Logo: Text logo with text "${config.logo.text}".\n`;
+    } else if (config.logo.type === 'image') {
+      prompt += `Logo: Image logo provided.\n`;
+    }
+
+    // Navigation
+    prompt += `Navigation menu items:\n`;
+    config.navigation.items.forEach((item, index) => {
+      prompt += `  ${index + 1}. Label: "${item.label}", Link: "${item.link}", Active: ${item.isActive}\n`;
+    });
+
+    // Call to Action
+    prompt += `Call to Action button: Text "${config.cta.text}", Link "${config.cta.link}", Style "${config.cta.style}".\n`;
+
+    // Search Bar
+    prompt += `Search Bar: ${config.searchBar.enabled ? 'Enabled' : 'Disabled'}`;
+    if (config.searchBar.enabled) {
+      prompt += ` with placeholder "${config.searchBar.placeholder}".\n`;
+    } else {
+      prompt += `.\n`;
+    }
+
+    // User Access
+    prompt += `User Access: ${config.userAccess.enabled ? 'Enabled' : 'Disabled'}`;
+    if (config.userAccess.enabled) {
+      prompt += `, Show Login: ${config.userAccess.showLogin}, Show Signup: ${config.userAccess.showSignup}.\n`;
+    } else {
+      prompt += `.\n`;
+    }
+
+    // Styling
+    prompt += `Styling:\n`;
+    prompt += `  Position: ${config.styling.position}\n`;
+    prompt += `  Background: ${config.styling.background}\n`;
+    prompt += `  Color Scheme: ${config.styling.colorScheme}\n`;
+    prompt += `  Theme: ${config.styling.theme}\n`;
+    prompt += `  Custom Colors:\n`;
+    Object.entries(config.styling.customColors).forEach(([key, value]) => {
+      prompt += `    ${key}: ${value}\n`;
+    });
+    prompt += `  Typography:\n`;
+    prompt += `    Font Family: ${config.styling.typography.fontFamily}\n`;
+    prompt += `    Font Size: ${config.styling.typography.fontSize}\n`;
+    prompt += `    Font Weight: ${config.styling.typography.fontWeight}\n`;
+    prompt += `  Spacing: ${config.styling.spacing}\n`;
+    prompt += `  Shadows: ${config.styling.shadows}\n`;
+    prompt += `  Borders: ${config.styling.borders}\n`;
+    prompt += `  Animations: ${config.styling.animations}\n`;
+    console.log(prompt);
+    return prompt;
+  };
+*/
 
   const steps = [
     { id: 1, title: 'Logo & Brand', icon: <Layout size={20} /> },

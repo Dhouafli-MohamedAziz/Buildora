@@ -480,21 +480,14 @@ export default function Dashboard() {
     setCurrentGeneratingSection(currentSection);
     
     try {
-      sendBotMessage(`🎨 Génération de la section **${currentSection}**...`);
+      sendBotMessage(`🎨 Section generation **${currentSection}**...`);
       
       // Generate AI content for the current section
-            console.log('=== GENERATING SECTION ===');
+      console.log('=== GENERATING SECTION ===');
       console.log('Section:', currentSection);
-      console.log('Is Features?', currentSection === 'Features');
-      console.log('Features config:', featuresConfig);
-      console.log('Features config type:', typeof featuresConfig);
-      if (featuresConfig) {
-        console.log('Features config keys:', Object.keys(featuresConfig));
-        console.log('Features config design:', featuresConfig.design);
-        console.log('Features config features:', featuresConfig.features);
-      }
+
       
-              console.log('=== SENDING AI REQUEST ===');
+      console.log('=== SENDING AI REQUEST ===');
         const requestBody = {
           sectionName: currentSection,
           projectDescription: projectDescription,

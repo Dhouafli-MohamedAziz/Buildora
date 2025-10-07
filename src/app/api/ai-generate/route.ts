@@ -25,14 +25,6 @@ export async function POST(req: Request) {
   
   console.log('=== AI GENERATION START ===');
   console.log('Section name:', sectionName);
-  console.log('Section name type:', typeof sectionName);
-  console.log('FeaturesConfig received:', featuresConfig);
-  if (featuresConfig) {
-    console.log('FeaturesConfig type:', typeof featuresConfig);
-    console.log('FeaturesConfig keys:', Object.keys(featuresConfig));
-    console.log('FeaturesConfig design:', featuresConfig.design);
-    console.log('FeaturesConfig features count:', featuresConfig.features?.length);
-  }
 
     // Create specific prompts for each section type
     const getSectionPrompt = (
@@ -591,8 +583,6 @@ export async function POST(req: Request) {
           - Citations inspirantes
           - Design élégant
           `;
-        
-        case 'Features':
         case 'features':
           console.log('🎯 FEATURES CASE EXECUTED!');
           console.log('=== FEATURES PROMPT BEING CONSTRUCTED ===');
