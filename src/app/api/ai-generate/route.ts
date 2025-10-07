@@ -1,58 +1,72 @@
 import { NextResponse } from 'next/server';
+import { generateHeaderPrompt } from '@/lib/promptgenerators/header';
 
 export async function POST(req: Request) {
   try {
     console.log('=== API ROUTE CALLED ===');
-    const { 
-      sectionName, 
-      projectDescription, 
-      theme, 
-      feedback, 
-      previousCode, 
-      projectName, 
-      headerConfig, 
-      heroConfig, 
-      featuresConfig, 
-      pricingConfig,
-      servicesConfig,
-      testimonialsConfig,
-      faqConfig,
-      galleryConfig,
-      contactConfig,
-      ctaConfig,
-      footerConfig
-    } = await req.json();
-  
+    const reqq = await req.json();
+    console.log('Request received with body:', reqq);
+    const { sectionName, projectDescription, projectName, feedback, previousCode } = reqq;
+
+    console.log("ahaya",reqq.headerConfig.navigation);
+
+
   console.log('=== AI GENERATION START ===');
   console.log('Section name:', sectionName);
+
+
+
+      let config = null;
+    switch (sectionName) {
+      case 'Header':
+        config = reqq.headerConfig;
+        break;
+      case 'Hero':
+        config = reqq.heroConfig;
+        break;
+      case 'Features':
+        config = reqq.featuresConfig;
+        break;
+      case 'Pricing':
+        config = reqq.pricingConfig;
+        break;
+      case 'Services':
+        config = reqq.servicesConfig;
+        break;
+      case 'Testimonials':
+        config = reqq.testimonialsConfig;
+        break;
+      case 'FAQ':
+        config = reqq.faqConfig;
+        break;
+      case 'Gallery':
+        config = reqq.galleryConfig;
+        break;
+      case 'Contact':
+        config = reqq.contactConfig;
+        break;
+      case 'CTA':
+        config = reqq.ctaConfig;
+        break;
+      case 'Footer':
+        config = reqq.footerConfig;
+        break;
+      default:
+        return new Response(
+          JSON.stringify({ error: `Unknown section name: ${sectionName}` }),
+          { status: 400 }
+        );
+    }
 
     // Create specific prompts for each section type
     const getSectionPrompt = (
       section: string, 
       description: string, 
-      theme: any, 
       feedback?: string, 
       previousCode?: string, 
-      featuresConfig?: any, 
-      pricingConfig?: any,
-      servicesConfig?: any,
-      testimonialsConfig?: any,
-      faqConfig?: any,
-      galleryConfig?: any,
-      contactConfig?: any,
-      ctaConfig?: any,
-      footerConfig?: any
+      config?: any,
     ) => {
-      const themeInfo = theme ? `
-      THÈME DE DESIGN :
-      - Nom du thème : ${theme.name}
-      - Couleur primaire : ${theme.primary}
-      - Couleur secondaire : ${theme.secondary}
-      - Couleur d'accent : ${theme.accent}
-      - Gradient : ${theme.gradient}
-      
-      Utilise ces couleurs dans ton design. Remplace les couleurs par défaut par celles du thème.
-      ` : '';
+
 
       let feedbackInfo = '';
       if (feedback && previousCode) {
@@ -76,7 +90,6 @@ export async function POST(req: Request) {
       
       Le projet est : "${description}"
       
-      ${themeInfo}
       ${feedbackInfo}
       
       Règles importantes :
@@ -108,89 +121,12 @@ export async function POST(req: Request) {
 
       console.log('🔍 Section name for switch:', section);
       console.log('🔍 Section name lowercase:', section.toLowerCase());
+      
       switch (section.toLowerCase()) {
+        ////////////////////////HEADER////////////////////////
         case 'header':
-          const headerSpecs = headerConfig ? `
-          CONFIGURATION DU HEADER :
-          - Nom de la marque : ${headerConfig.brandName || projectName}
-          - Navigation : ${headerConfig.navigationItems?.join(', ') || 'Accueil, Fonctionnalités, Contact'}
-          - Boutons CTA : ${headerConfig.ctaButtons?.map((btn: any) => btn.text).join(', ') || 'Commencer'}
-          - Header fixe : ${headerConfig.isSticky ? 'Oui' : 'Non'}
-          - Style menu mobile : ${headerConfig.mobileMenuStyle || 'hamburger'}
-          - Fonctionnalités supplémentaires : ${headerConfig.additionalFeatures?.join(', ') || 'Aucune'}
-          - DESIGN :
-            * Thème : ${headerConfig.design?.theme || 'light'}
-            * Couleur primaire : ${headerConfig.design?.primaryColor || '#3B82F6'}
-            * Couleur secondaire : ${headerConfig.design?.secondaryColor || '#1F2937'}
-            * Couleur d'accent : ${headerConfig.design?.accentColor || '#8B5CF6'}
-            * Couleur du texte : ${headerConfig.design?.textColor || '#1F2937'}
-            * Couleur de fond : ${headerConfig.design?.backgroundColor || '#FFFFFF'}
-          
-          SPÉCIFICATIONS DÉTAILLÉES POUR UN HEADER MODERNE ET BEAU :
-          
-          STRUCTURE OBLIGATOIRE :
-          - Header avec fond blanc/transparent et ombre subtile
-          - Logo/Brand à gauche : Texte du brand "${headerConfig.brandName || projectName}" en gras avec couleur du thème
-          - Navigation au centre : ${headerConfig.navigationItems?.join(', ') || 'Accueil, Fonctionnalités, Contact'}
-          - Boutons CTA à droite : ${headerConfig.ctaButtons?.map((btn: any) => btn.text).join(', ') || 'Commencer'}
-          - Menu hamburger pour mobile (visible uniquement sur mobile)
-          
-          STYLING OBLIGATOIRE :
-          - Utilise EXACTEMENT les couleurs fournies dans la configuration design
-          - Couleur primaire : ${headerConfig.design?.primaryColor || '#3B82F6'} (pour les boutons CTA principaux)
-          - Couleur secondaire : ${headerConfig.design?.secondaryColor || '#1F2937'} (pour les éléments secondaires)
-          - Couleur d'accent : ${headerConfig.design?.accentColor || '#8B5CF6'} (pour les highlights)
-          - Couleur du texte : ${headerConfig.design?.textColor || '#1F2937'} (pour tout le texte)
-          - Couleur de fond : ${headerConfig.design?.backgroundColor || '#FFFFFF'} (pour le fond du header)
-          - Thème : ${headerConfig.design?.theme || 'light'}
-          ${headerConfig.design?.theme === 'dark' ? '- Utilise un fond sombre avec texte clair' : ''}
-          ${headerConfig.design?.theme === 'gradient' ? '- Utilise un dégradé avec les couleurs primaire et accent' : ''}
-          ${headerConfig.design?.theme === 'glassmorphism' ? '- Utilise un effet glassmorphism avec backdrop-blur' : ''}
-          - Header ${headerConfig.isSticky ? 'fixe en haut avec sticky top-0' : 'normal'}
-          - Navigation avec hover effects et transitions
-          - Boutons CTA avec les couleurs spécifiées
-          - Responsive design parfait
-          - CRITIQUE: Header doit avoir m-0 p-0 pour supprimer tous les espaces
-          - CRITIQUE: Utilise w-full pour occuper toute la largeur
-          - CRITIQUE: Pas d'espaces blancs entre le header et le contenu suivant
-          
-          BOUTONS CTA DÉTAILLÉS :
-          ${headerConfig.ctaButtons?.map((btn: any) => `
-          - Bouton "${btn.text}" : 
-            * Type: ${btn.type === 'primary' ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white' : btn.type === 'secondary' ? 'bg-gray-100 text-gray-800 border border-gray-300' : 'border border-gray-300 text-gray-700 bg-white'}
-            * Hover: ${btn.type === 'primary' ? 'hover:from-purple-700 hover:to-blue-700' : 'hover:bg-gray-50'}
-            * Padding: px-6 py-2.5
-            * Border radius: rounded-lg
-            * Font: font-semibold
-          `).join('') || '- Bouton "Commencer" : bg-gradient-to-r from-purple-600 to-blue-600 text-white hover:from-purple-700 hover:to-blue-700 px-6 py-2.5 rounded-lg font-semibold'}
-          
-          FONCTIONNALITÉS SUPPLÉMENTAIRES :
-          ${headerConfig.additionalFeatures?.includes('search') ? '- Barre de recherche avec icône magnifying glass' : ''}
-          ${headerConfig.additionalFeatures?.includes('social') ? '- Icônes réseaux sociaux (Twitter, Facebook, Instagram)' : ''}
-          ${headerConfig.additionalFeatures?.includes('language') ? '- Sélecteur de langue' : ''}
-          
-          ICÔNES OBLIGATOIRES :
-          - Menu hamburger pour mobile
-          - Icône de recherche si activée
-          - Icônes réseaux sociaux si activées
-          
-          ANIMATIONS :
-          - Fade-in pour le header
-          - Hover effects sur navigation et boutons
-          - Transitions fluides
-          
-          RESPONSIVE :
-          - Desktop : Navigation visible, boutons CTA visibles
-          - Mobile : Menu hamburger, navigation dans dropdown
-          ` : `
-          Spécifications pour le Header :
-          - Navigation responsive avec logo
-          - Menu hamburger pour mobile
-          - Call-to-action principal
-          - Design moderne avec glassmorphism
-          - Utilise des icônes Lucide React
-          `;
-          
+          const headerSpecs = generateHeaderPrompt (basePrompt, config);
+          console.log('=== HEADER PROMPT ===' , headerSpecs);
           return basePrompt + headerSpecs + `
           - CRITIQUE: Génère UNIQUEMENT du HTML pur avec TailwindCSS
           - Pas de descriptions, pas de commentaires, pas de texte explicatif
@@ -200,7 +136,7 @@ export async function POST(req: Request) {
           - Crée un design moderne et professionnel
           - CRITIQUE: Respecte EXACTEMENT la configuration fournie
           `;
-        
+       /* 
         case 'hero':
           const heroSpecs = heroConfig ? `
           CONFIGURATION DU HERO :
@@ -1370,6 +1306,7 @@ export async function POST(req: Request) {
           - Newsletter signup
           - Footer complet
           `;
+          */
         
         default:
           return basePrompt;
@@ -1379,18 +1316,9 @@ export async function POST(req: Request) {
     const prompt = getSectionPrompt(
       sectionName, 
       projectDescription, 
-      theme, 
       feedback, 
       previousCode, 
-      featuresConfig, 
-      pricingConfig,
-      servicesConfig,
-      testimonialsConfig,
-      faqConfig,
-      galleryConfig,
-      contactConfig,
-      ctaConfig,
-      footerConfig
+      config,
     );
 
     const response = await fetch('https://api.deepseek.com/v1/chat/completions', {

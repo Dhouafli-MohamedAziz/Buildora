@@ -176,6 +176,7 @@ export default function Dashboard() {
   const handleHeaderBuilderComplete = (config: any) => {
     setHeaderConfig(config);
     setShowHeaderBuilder(false);
+    console.log('Header config completed:', headerConfig);
   };
 
   const handleHeaderBuilderBack = () => {
@@ -485,9 +486,6 @@ export default function Dashboard() {
       // Generate AI content for the current section
       console.log('=== GENERATING SECTION ===');
       console.log('Section:', currentSection);
-
-      
-      console.log('=== SENDING AI REQUEST ===');
         const requestBody = {
           sectionName: currentSection,
           projectDescription: projectDescription,
@@ -499,7 +497,10 @@ export default function Dashboard() {
           galleryConfig: currentSection === 'Gallery' ? galleryConfig : undefined,
           contactConfig: currentSection === 'Contact' ? contactConfig : undefined,
           ctaConfig: currentSection === 'CTA' ? ctaConfig : undefined,
-          footerConfig: currentSection === 'Footer' ? footerConfig : undefined
+          footerConfig: currentSection === 'Footer' ? footerConfig : undefined,
+          testimonialsConfig: currentSection === 'Testimonials' ? testimonialsConfig : undefined,
+          servicesConfig: currentSection === 'Services' ? servicesConfig : undefined,
+          faqConfig: currentSection === 'FAQ' ? faqConfig : undefined,
         };
         console.log('Request body:', requestBody);
         
