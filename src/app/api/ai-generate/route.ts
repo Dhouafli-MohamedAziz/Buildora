@@ -6,9 +6,8 @@ export async function POST(req: Request) {
     console.log('=== API ROUTE CALLED ===');
     const reqq = await req.json();
     console.log('Request received with body:', reqq);
-    const { sectionName, projectDescription, projectName, feedback, previousCode } = reqq;
+    const { sectionName, projectDescription, feedback, previousCode } = reqq;
 
-    console.log("ahaya",reqq.headerConfig.navigation);
 
 
   console.log('=== AI GENERATION START ===');

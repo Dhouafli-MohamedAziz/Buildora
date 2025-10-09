@@ -1,11 +1,21 @@
 export function generateHeaderPrompt(basePrompt: string, headerConfig: any) {
-  return `
+  let navigationItems = "";
+  for (const item of headerConfig.navigation.items) {
+  navigationItems += `\n   - ${item.label} (${item.link})${item.isActive}`;
+  }
+  let ctaItems = `\n   - ${headerConfig.cta.text} (${headerConfig.cta.link}) - Style: ${headerConfig.cta.style}`;
+  let searchBar = `\n   - searchbar ${headerConfig.searchBar.enabled} -placeholder :${headerConfig.searchBar.placeholder} `;
+  let userAcess = `\n   - userAcess ${headerConfig.userAccess.enabled} -  showLoginbutton :${headerConfig.userAccess.showLogin} - showSignupbutton : ${headerConfig.userAccess.showSignup}`;
+return `
 ${basePrompt}
 
 CONFIGURATION DU HEADER :
           - Nom de la marque : ${headerConfig.logo?.text}
-          - Navigation : ${headerConfig.navigation}
-          - Boutons CTA : ${headerConfig.cta}
+          - Navigation : ${navigationItems}
+          - Boutons CTA : ${ctaItems}
+          - Search bar : ${searchBar}
+          - User access : ${userAcess}
+
           - Header fixe : ${headerConfig.isSticky ? 'Oui' : 'Non'}
           - Style menu mobile : ${headerConfig.mobileMenuStyle}
           - Fonctionnalités supplémentaires : ${headerConfig.additionalFeatures?.join(', ') }
