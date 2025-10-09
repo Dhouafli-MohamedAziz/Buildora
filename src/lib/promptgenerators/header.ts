@@ -11,6 +11,7 @@ ${basePrompt}
 
 CONFIGURATION DU HEADER :
           - Nom de la marque : ${headerConfig.logo?.text}
+          - Logo de la marque : 
           - Navigation : ${navigationItems}
           - Boutons CTA : ${ctaItems}
           - Search bar : ${searchBar}

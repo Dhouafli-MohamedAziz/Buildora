@@ -176,7 +176,6 @@ export default function Dashboard() {
   const handleHeaderBuilderComplete = (config: any) => {
     setHeaderConfig(config);
     setShowHeaderBuilder(false);
-    console.log('Header config completed:', headerConfig);
   };
 
   const handleHeaderBuilderBack = () => {

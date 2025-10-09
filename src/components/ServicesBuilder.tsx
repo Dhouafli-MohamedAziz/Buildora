@@ -2,7 +2,11 @@
 
 import React, { useState } from 'react';
 import { X, ChevronLeft, ChevronRight, Settings, Check, Upload, Menu, Plus, Trash2 } from 'lucide-react';
-
+import { 
+  ArrowLeft, ArrowRight, Layout, Image as ImageIcon, 
+   Search, User, Palette,
+  Type, Sparkles, Zap, Paintbrush
+} from 'lucide-react';
 interface ServiceItem {
   id: string;
   enabled: boolean;

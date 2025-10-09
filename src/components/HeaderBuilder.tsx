@@ -129,8 +129,6 @@ const HeaderBuilder: React.FC<HeaderBuilderProps> = ({ projectName, onComplete, 
   
 );
 
-console.log("Header Config:" , config);
-
   const steps = [
     { id: 1, title: 'Logo & Brand', icon: <Layout size={20} /> },
     { id: 2, title: 'Navigation Menu', icon: <Menu size={20} /> },
