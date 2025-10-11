@@ -1,127 +1,107 @@
 export function generatePricingPrompt (basePrompt : string , pricingConfig : any) {
-    return basePrompt + `
+    return pricingConfig?  basePrompt + `
           CONFIGURATION DU PRICING :
-          - Titre de la section : "${pricingConfig.title}"
-          - Sous-titre : "${pricingConfig.subtitle}"
+          - Titre de la section : "${pricingConfig.title.text}"
+          - Introduction : "${pricingConfig.intro.text}"
           - Nombre de plans : ${pricingConfig.plans.length}
-          - Style des cartes : ${pricingConfig.cardStyle}
-          - Disposition : ${pricingConfig.layout}
-          - Alignement : ${pricingConfig.alignment}
-          - Afficher les fonctionnalités : ${pricingConfig.showFeatures ? 'Oui' : 'Non'}
-          - Afficher les badges : ${pricingConfig.showBadges ? 'Oui' : 'Non'}
-          - Afficher la comparaison : ${pricingConfig.showComparison ? 'Oui' : 'Non'}
-          - Animation : ${pricingConfig.animation}
-          - DESIGN :
-            * Thème : ${pricingConfig.design?.theme || 'light'}
-            * Couleur primaire : ${pricingConfig.design?.primaryColor || '#3B82F6'}
-            * Couleur secondaire : ${pricingConfig.design?.secondaryColor || '#1F2937'}
-            * Couleur d'accent : ${pricingConfig.design?.accentColor || '#8B5CF6'}
-            * Couleur du texte : ${pricingConfig.design?.textColor || '#1F2937'}
-            * Couleur de fond : ${pricingConfig.design?.backgroundColor || '#FFFFFF'}
-            * Style des cartes : ${pricingConfig.design?.cardStyle || 'elevated'}
-            * Style des boutons : ${pricingConfig.design?.buttonStyle || 'rounded'}
-            * Typographie : ${pricingConfig.design?.typography || 'modern'}
+          - Bascule mensuel/annuel activée : ${pricingConfig.billingToggle.enabled ? 'Oui' : 'Non'}
+          - Réduction annuelle : ${pricingConfig.billingToggle.yearlyDiscount ? pricingConfig.billingToggle.yearlyDiscount + '%' : 'Aucune'}
+          - Comparaison des plans : ${pricingConfig.comparison.enabled ? 'Oui' : 'Non'}
+          - Garanties : ${pricingConfig.guarantees.enabled ? pricingConfig.guarantees.items.join(', ') : 'Aucune'}
+          - FAQ activée : ${pricingConfig.faq.enabled ? 'Oui' : 'Non'}
+          - Bouton CTA : ${pricingConfig.cta.enabled ? `"${pricingConfig.cta.text}" (${pricingConfig.cta.link})` : 'Non'}
+          - Espacement global : ${pricingConfig.styling.spacing}
+          - Animation : ${pricingConfig.styling.animations}
+
+          DESIGN :
+            * Couleurs personnalisées : ${JSON.stringify(pricingConfig.styling.customColors)}
+            * Typographie : ${JSON.stringify(pricingConfig.styling.typography)}
 
           PLANS DÉTAILLÉS :
           ${pricingConfig.plans.map((plan: any, index: number) => `
           - Plan ${index + 1} : "${plan.name}"
-            * Prix : $${plan.price}/${plan.billingPeriod}
-            * Description : "${plan.description}"
+            * Prix : ${plan.price} ${plan.billingPeriod ? '/' + plan.billingPeriod : ''}
+            * Description : "${plan.description || ''}"
             * Populaire : ${plan.isPopular ? 'Oui' : 'Non'}
             * Mis en avant : ${plan.isHighlighted ? 'Oui' : 'Non'}
-            * CTA : "${plan.cta.text}" (style: ${plan.cta.style})
-            * Fonctionnalités : ${plan.features.join(', ')}
+            * CTA : ${plan.cta && plan.cta.text ? `"${plan.cta.text}"` : 'Aucun CTA défini'}
+            * Fonctionnalités : ${Array.isArray(plan.features) ? plan.features.join(', ') : 'Aucune'}
           `).join('')}
 
           SPÉCIFICATIONS DÉTAILLÉES POUR UNE SECTION PRICING MODERNE ET BEAUE :
 
           STRUCTURE OBLIGATOIRE :
-          - Section pricing avec titre et sous-titre
-          - Grille de plans selon la disposition choisie
-          - Chaque plan avec prix, description, fonctionnalités, CTA
-          - Espacement généreux entre les éléments
+          - Section pricing avec titre et introduction
+          - Grille de plans selon la configuration
+          - Chaque plan doit inclure : nom, prix, description, CTA, et fonctionnalités
+          - Bascule mensuel/annuel si activée
+          - Espacement : ${pricingConfig.styling.spacing}
 
-          STYLE DES CARTES SPÉCIFIQUE :
-          - Style choisi : ${pricingConfig.cardStyle}
-          ${pricingConfig.cardStyle === 'small' ? '- Cartes compactes avec padding minimal' : ''}
-          ${pricingConfig.cardStyle === 'large' ? '- Cartes spacieuses avec padding généreux' : ''}
-          ${pricingConfig.cardStyle === 'tiered' ? '- Hauteurs différentes selon l\'importance du plan' : ''}
-          ${pricingConfig.cardStyle === 'horizontal' ? '- Disposition côte à côte' : ''}
-          ${pricingConfig.cardStyle === 'stacked' ? '- Arrangement vertical empilé' : ''}
-          ${pricingConfig.cardStyle === 'floating' ? '- Élévation avec ombres prononcées' : ''}
-          ${pricingConfig.cardStyle === 'bordered' ? '- Bordures nettes et propres' : ''}
-          ${pricingConfig.cardStyle === 'gradient' ? '- Dégradés de couleurs' : ''}
+          LAYOUT ET STYLE :
+          - Les cartes de plan doivent être équilibrées et lisibles
+          - Chaque plan doit clairement afficher le CTA et les fonctionnalités
+          - Animation globale : ${pricingConfig.styling.animations}
+          - Transitions fluides et effets au survol doux
 
-          LAYOUT SPÉCIFIQUE :
-          - Disposition : ${pricingConfig.layout}
-          ${pricingConfig.layout === 'grid-1' ? '- 1 colonne (grid grid-cols-1)' : ''}
-          ${pricingConfig.layout === 'grid-2' ? '- 2 colonnes (grid grid-cols-1 md:grid-cols-2)' : ''}
-          ${pricingConfig.layout === 'grid-3' ? '- 3 colonnes (grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3)' : ''}
-          ${pricingConfig.layout === 'grid-4' ? '- 4 colonnes (grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4)' : ''}
-          ${pricingConfig.layout === 'horizontal' ? '- Disposition horizontale (flex)' : ''}
-          ${pricingConfig.layout === 'stacked' ? '- Disposition empilée (flex flex-col)' : ''}
-
-          STYLING OBLIGATOIRE :
-          - Alignement : ${pricingConfig.alignment}
-          - Utilise EXACTEMENT les couleurs fournies dans la configuration design
-          - Couleur primaire : ${pricingConfig.design?.primaryColor || '#3B82F6'} (pour les boutons CTA principaux)
-          - Couleur secondaire : ${pricingConfig.design?.secondaryColor || '#1F2937'} (pour les éléments secondaires)
-          - Couleur d'accent : ${pricingConfig.design?.accentColor || '#8B5CF6'} (pour les highlights)
-          - Couleur du texte : ${pricingConfig.design?.textColor || '#1F2937'} (pour tout le texte)
-          - Couleur de fond : ${pricingConfig.design?.backgroundColor || '#FFFFFF'} (pour le fond)
-          - Thème : ${pricingConfig.design?.theme || 'light'}
-          ${pricingConfig.design?.theme === 'dark' ? '- Utilise un fond sombre avec texte clair' : ''}
-          ${pricingConfig.design?.theme === 'gradient' ? '- Utilise un dégradé avec les couleurs primaire et accent' : ''}
-          ${pricingConfig.design?.theme === 'glassmorphism' ? '- Utilise un effet glassmorphism avec backdrop-blur' : ''}
-          ${pricingConfig.design?.theme === 'minimal' ? '- Design épuré avec beaucoup d\'espace blanc' : ''}
-          ${pricingConfig.design?.theme === 'bold' ? '- Design audacieux avec contraste fort' : ''}
-          - Style des cartes : ${pricingConfig.design?.cardStyle || 'elevated'}
-          - Style des boutons : ${pricingConfig.design?.buttonStyle || 'rounded'}
-          - Typographie : ${pricingConfig.design?.typography || 'modern'}
-
-          ÉLÉMENTS VISUELS :
-          ${pricingConfig.showBadges ? `
-          - Afficher les badges pour les plans populaires
-          - Style : badges avec la couleur primaire
-          - Position : en haut de la carte du plan populaire
+          COMPARAISON ET GARANTIES :
+          ${pricingConfig.comparison.enabled ? `
+          - Tableau comparatif visible sous les plans
+          - Met en avant les différences clés entre les offres
           ` : ''}
-          ${pricingConfig.showFeatures ? `
-          - Afficher la liste des fonctionnalités pour chaque plan
-          - Style : liste avec puces et icônes
-          - Couleur : couleur du texte secondaire
+          ${pricingConfig.guarantees.enabled ? `
+          - Liste des garanties à afficher sous les plans :
+          ${pricingConfig.guarantees.items.map((g: string, i: number) => `   * Garantie ${i + 1} : ${g}`).join('\n')}
           ` : ''}
 
-          BOUTONS CTA DÉTAILLÉS :
-          ${pricingConfig.plans.map((plan: any) => `
-          - Bouton "${plan.cta.text}" pour le plan ${plan.name} :
-            * Style: ${plan.cta.style === 'primary' ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white' : plan.cta.style === 'secondary' ? 'bg-gray-100 text-gray-800 border border-gray-300' : 'border border-gray-300 text-gray-700 bg-white'}
-            * Hover: ${plan.cta.style === 'primary' ? 'hover:from-purple-700 hover:to-blue-700' : 'hover:bg-gray-50'}
-            * Padding: px-6 py-3
-            * Border radius: ${pricingConfig.design?.buttonStyle === 'rounded' ? 'rounded-lg' : pricingConfig.design?.buttonStyle === 'sharp' ? 'rounded-none' : pricingConfig.design?.buttonStyle === 'pill' ? 'rounded-full' : 'rounded-lg'}
-            * Font: font-semibold
-          `).join('')}
+          FAQ :
+          ${pricingConfig.faq.enabled ? `
+          - Foire aux questions activée
+          - Questions/réponses à afficher après la section Pricing
+          - Liste : ${pricingConfig.faq.items.map((item: any) => `"${item.question}"`).join(', ')}
+          ` : 'Aucune FAQ'}
 
-          ANIMATIONS :
-          - Animation d'entrée : ${pricingConfig.animation === 'fade-in' ? 'animate-fade-in' : pricingConfig.animation === 'slide-up' ? 'animate-slide-in-up' : pricingConfig.animation === 'stagger' ? 'animate-stagger avec délais' : 'pas d\'animation'}
-          - Hover effects sur les cartes
-          - Transitions fluides
+          CTA FINAL :
+          ${pricingConfig.cta.enabled ? `
+          - Bouton principal "${pricingConfig.cta.text}"
+          - Lien : ${pricingConfig.cta.link}
+          - Style cohérent avec la typographie et les couleurs définies
+          ` : 'Aucun bouton CTA global'}
+
+          STYLING :
+          - Espacement : ${pricingConfig.styling.spacing}
+          - Animation : ${pricingConfig.styling.animations}
+          - Couleurs : ${JSON.stringify(pricingConfig.styling.customColors)}
+          - Typographie : ${JSON.stringify(pricingConfig.styling.typography)}
+
+          ANIMATIONS ET INTERACTIONS :
+          - Effet d’entrée : ${pricingConfig.styling.animations === 'fade' ? 'Fondu progressif' : pricingConfig.styling.animations === 'slide' ? 'Glissement' : 'Aucun effet défini'}
+          - Hover sur les cartes : légère élévation ou zoom
+          - Transitions fluides entre états (hover, actif, sélectionné)
 
           RESPONSIVE :
-          - Mobile-first design
-          - Breakpoints: sm (640px), md (768px), lg (1024px), xl (1280px)
-          - Grille responsive selon la disposition choisie
+          - Design mobile-first
+          - Grille adaptative pour sm / md / lg / xl
           - Espacement adaptatif
+          - CTA et comparaison toujours visibles
 
-          CRITIQUE: Respecte EXACTEMENT la configuration fournie
-          CRITIQUE: Utilise les couleurs exactes du design
-          CRITIQUE: Affiche tous les plans listés
-          CRITIQUE: Applique le style de carte choisi
+          CRITIQUE :
+          - Respecte EXACTEMENT la configuration fournie
+          - Utilise les couleurs et la typographie personnalisées
+          - Affiche tous les plans fournis
+          - Rend la section claire, équilibrée et moderne
+          - Assure cohérence entre plans, garanties, et CTA
+
+          ` : basePrompt + `
           Spécifications pour Pricing :
-          - 3 plans tarifaires
-          - Comparaison des fonctionnalités
-          - Boutons d'action
-          - Design moderne avec badges
-          - Pricing attractif
-          `;
+          - 3-4 plans de tarification avec TailwindCSS grid
+          - Carte de plan avec nom, prix, description, fonctionnalités, CTA
+          - Bascule mensuel/annuel
+          - Comparaison des plans en tableau
+          - FAQ sous la section pricing
+          - Design professionnel et moderne
+          - Utilise des couleurs du thème fourni
+          - Responsive design (mobile-first)
+          - Animations d'entrée avec TailwindCSS
+` ;
         
 }
