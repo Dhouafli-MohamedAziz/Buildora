@@ -500,6 +500,8 @@ export default function Dashboard() {
           testimonialsConfig: currentSection === 'Testimonials' ? testimonialsConfig : undefined,
           servicesConfig: currentSection === 'Services' ? servicesConfig : undefined,
           faqConfig: currentSection === 'FAQ' ? faqConfig : undefined,
+          feedback : sectionFeedback[currentSection]?.join('\n') || undefined,
+          previousCode : currentSectionCode || undefined 
         };
         console.log('Request body:', requestBody);
         
@@ -584,9 +586,11 @@ export default function Dashboard() {
       }));
       
       sendBotMessage(`🔄 Régénération de la section **${currentSection}** avec votre feedback...`);
+
+      console.log("feedback:" , feedback) ;
       
       // Regenerate with feedback
-      const aiResponse = await fetch('/api/ai-regenerate', {
+      const aiResponse = await fetch('/api/ai-generate', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -595,7 +599,8 @@ export default function Dashboard() {
           sectionName: currentSection,
           projectDescription: projectDescription,
           feedback: feedback,
-          previousCode: sectionCodes[currentSection]
+          previousCode: sectionCodes[currentSection],
+               
         })
       });
 

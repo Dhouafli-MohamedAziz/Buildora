@@ -79,7 +79,7 @@ export async function POST(req: Request) {
 
 
       let feedbackInfo = '';
-      if (feedback && previousCode) {
+      if (feedback || previousCode) {
         feedbackInfo = `
         
         FEEDBACK UTILISATEUR :
@@ -94,8 +94,11 @@ export async function POST(req: Request) {
         - Garde les éléments qui fonctionnent bien
         - Modifie uniquement ce qui est demandé
         `;
+        
       }
+      console.log('Feedback info for prompt:', feedbackInfo);
 
+      
       const basePrompt = `Tu es un développeur web expert. Crée du HTML pur avec TailwindCSS pour la section "${section}" d'une landing page.
       
       Le projet est : "${description}"
@@ -128,6 +131,9 @@ export async function POST(req: Request) {
       - CRITIQUE: Assure une intégration parfaite sans espaces blancs
       - CRITIQUE: Utilise w-full pour occuper toute la largeur disponible
       `;
+      if (feedbackInfo) {
+        return basePrompt;
+      }
 
       console.log('🔍 Section name for switch:', section);
       console.log('🔍 Section name lowercase:', section.toLowerCase());
@@ -213,14 +219,16 @@ export async function POST(req: Request) {
           return basePrompt;
       }
     };
+  
 
     const prompt = getSectionPrompt(
       sectionName, 
       projectDescription, 
       feedback, 
       previousCode, 
-      config,
+      config
     );
+    console.log('=== GENERATED PROMPT ===', prompt);
 
     const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
       method: 'POST',
@@ -237,7 +245,7 @@ export async function POST(req: Request) {
         temperature: 0.3,
         top_p: 1,
         stream: false,
-      }),
+      })
     });
 
     const data = await response.json();
