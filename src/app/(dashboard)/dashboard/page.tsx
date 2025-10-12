@@ -15,7 +15,7 @@ import ContactBuilder from '@/components/ContactBuilder';
 import CTABuilder from '@/components/CTABuilder';
 import FooterBuilder from '@/components/FooterBuilder';
 import { 
-  Menu, ChevronDown, Settings, LogOut, Download, Share2, User, Moon, Sun, X, 
+  Menu, ChevronDown, Settings, LogOut, Download, Share2, User, 
   Check, ChevronRight, Palette, Loader, Zap, Eye, Code, Layout, Image as ImageIcon, Save, ExternalLink, Copy, RefreshCw
 } from 'lucide-react';
 
@@ -67,7 +67,7 @@ export default function Dashboard() {
     
     // Generation state
     const [currentGeneratingSection, setCurrentGeneratingSection] = useState<string | null>(null);
-    const [sectionApprovalStatus, setSectionApprovalStatus] = useState<Record<string, 'pending' | 'approved' | 'rejected'>>({});
+    const [sectionApprovalStatus, setSectionApprovalStatus] = useState<Record<string, 'pending' | 'approved' >>({});
     
     // HeaderBuilder state
     const [showHeaderBuilder, setShowHeaderBuilder] = useState(false);
@@ -194,8 +194,6 @@ export default function Dashboard() {
 
   // PricingBuilder functions
   const handlePricingBuilderComplete = (config: any) => {
-    console.log('=== PRICING BUILDER COMPLETE ===');
-    console.log('Config received:', config);
     setPricingConfig(config);
     setShowPricingBuilder(false);
   };
@@ -208,7 +206,6 @@ export default function Dashboard() {
   const handleServicesBuilderComplete = (config: any) => {
     setServicesConfig(config);
     setShowServicesBuilder(false);
-    console.log('Services config completed:', config);
   };
   
   const handleServicesBuilderBack = () => {
@@ -429,7 +426,7 @@ export default function Dashboard() {
       setCurrentSectionIndex(0);
       
       // Initialize section approval status
-      const initialStatus: Record<string, 'pending' | 'approved' | 'rejected'> = {};
+      const initialStatus: Record<string, 'pending' | 'approved' > = {};
       selectedSections.forEach(section => {
         initialStatus[section] = 'pending';
       });
@@ -582,7 +579,7 @@ export default function Dashboard() {
       // Update approval status to rejected
       setSectionApprovalStatus(prev => ({
         ...prev,
-        [currentSection]: 'rejected'
+        [currentSection]: 'pending'
       }));
       
       sendBotMessage(`🔄 Régénération de la section **${currentSection}** avec votre feedback...`);
@@ -697,24 +694,7 @@ export default function Dashboard() {
     }
   };
 
-  const rejectCurrentSection = async () => {
-    const currentSection = selectedSections[currentSectionIndex];
-    
-    // Update approval status to rejected
-    setSectionApprovalStatus(prev => ({
-      ...prev,
-      [currentSection]: 'rejected'
-    }));
-    
-    // Clear the current section code and preview
-    setCurrentSectionCode('');
-    setShowSectionPreview(false);
-    
-
-    
-    // Regenerate the section
-    await generateCurrentSection();
-  };
+  
 
   const finalizeProject = async () => {
     try {
@@ -849,7 +829,7 @@ export default function Dashboard() {
     setLogoPreview(project.logo);
     setProjectReady(true);
     setProgressPercentage(100);
-    sendBotMessage(`Projet "${project.name}" chargé avec succès !`);
+    sendBotMessage(`Project "${project.name}" Loaded successfully !`);
   };
 
   const viewCode = () => {
@@ -1289,22 +1269,7 @@ export default function Dashboard() {
                         <p className="text-sm text-gray-400">Approuvez ou modifiez cette section</p>
                       </div>
                       
-                      <div className="flex space-x-3">
-                        <button
-                          onClick={approveCurrentSection}
-                          className="flex-1 px-4 py-3 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white rounded-lg font-medium transition-all duration-200 flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl transform hover:scale-105"
-                        >
-                          <Check className="w-4 h-4" />
-                          <span>Approuver</span>
-                        </button>
-                        <button
-                          onClick={rejectCurrentSection}
-                          className="flex-1 px-4 py-3 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white rounded-lg font-medium transition-all duration-200 flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl transform hover:scale-105"
-                        >
-                          <X className="w-4 h-4" />
-                          <span>Rejeter</span>
-                        </button>
-                      </div>
+
 
                       <div className="space-y-3">
                         <textarea
@@ -1314,6 +1279,14 @@ export default function Dashboard() {
                           className="w-full p-3 border border-white/10 rounded-lg resize-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm transition-all duration-200 bg-white/10 text-white placeholder-gray-400"
                           rows={3}
                         />
+                        <div className="flex space-x-4">
+                        <button
+                          onClick={approveCurrentSection}
+                          className="w-1/2 flex-1 px-4 py-3 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white rounded-lg font-medium transition-all duration-200 flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl transform hover:scale-105"
+                        >
+                          <Check className="w-4 h-4" />
+                          <span>Approuver</span>
+                        </button>
                         <button
                           onClick={() => {
                             if (input.trim()) {
@@ -1322,11 +1295,12 @@ export default function Dashboard() {
                             }
                           }}
                           disabled={!input.trim()}
-                          className="w-full px-4 py-3 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 disabled:from-gray-400 disabled:to-gray-500 text-white rounded-lg font-medium transition-all duration-200 flex items-center justify-center space-x-2 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transform hover:scale-105 disabled:transform-none"
+                          className=" w-1/2 px-4 py-3 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 disabled:from-gray-400 disabled:to-gray-500 text-white rounded-lg font-medium transition-all duration-200 flex items-center justify-center space-x-2 disabled:cursor-not-allowed shadow-lg hover:shadow-xl transform hover:scale-105 disabled:transform-none"
                         >
                           <RefreshCw className="w-4 h-4" />
                           <span>Régénérer avec feedback</span>
                         </button>
+                        </div>
                       </div>
                     </div>
                   ) : projectReady ? (
@@ -1438,7 +1412,6 @@ export default function Dashboard() {
                     isGeneratingSection={isGeneratingSection}
                     currentGeneratingSection={currentGeneratingSection}
                     onApprove={approveCurrentSection}
-                    onReject={rejectCurrentSection}
                     onRegenerate={regenerateCurrentSection}
                   />
                 </div>

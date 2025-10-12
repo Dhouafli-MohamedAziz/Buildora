@@ -9,7 +9,6 @@ interface ProgressiveWebsiteBuilderProps {
   isGeneratingSection: boolean;
   currentGeneratingSection: string | null;
   onApprove: () => void;
-  onReject: () => void;
   onRegenerate: (feedback: string) => void;
 }
 
@@ -20,7 +19,6 @@ export default function ProgressiveWebsiteBuilder({
   isGeneratingSection,
   currentGeneratingSection,
   onApprove,
-  onReject,
   onRegenerate
 }: ProgressiveWebsiteBuilderProps) {
   const [error, setError] = useState<string | null>(null);
