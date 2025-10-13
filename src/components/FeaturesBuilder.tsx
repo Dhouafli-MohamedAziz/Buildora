@@ -589,10 +589,18 @@ const FeaturesBuilder: React.FC<FeaturesBuilderProps> = ({ projectName, onComple
         );
     }
   };
+    const themeColors = {
+        primary: 'from-purple-500 to-pink-500',
+        accent: 'purple',
+        bg: 'bg-purple-500/20',
+        border : 'border-purple-500',
+  }
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-gray-900 rounded-lg shadow-2xl w-full max-w-4xl h-[90vh] flex flex-col border border-purple-700/50">
+      <div className="bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden">
+        {/* Header */}
+        
         <div className="p-4 border-b border-purple-700/50 flex items-center justify-between">
           <h2 className="text-2xl font-bold text-white">Advanced Features Builder</h2>
           <button onClick={onBack} className="text-gray-400 hover:text-white transition-colors">

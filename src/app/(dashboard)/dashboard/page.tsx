@@ -14,6 +14,8 @@ import ServicesBuilder from '@/components/ServicesBuilder';
 import ContactBuilder from '@/components/ContactBuilder';
 import CTABuilder from '@/components/CTABuilder';
 import FooterBuilder from '@/components/FooterBuilder';
+import TestimonialsBuilder from '@/components/TestimonialsBuilder';
+import FeaturesBuilder from '@/src/components/FeaturesBuilder';
 import { 
   Menu, ChevronDown, Settings, LogOut, Download, Share2, User, 
   Check, ChevronRight, Palette, Loader, Zap, Eye, Code, Layout, Image as ImageIcon, Save, ExternalLink, Copy, RefreshCw
@@ -191,6 +193,16 @@ export default function Dashboard() {
   const handleHeroBuilderBack = () => {
     setShowHeroBuilder(false);
   };
+  //FeaturesBuilder functions
+  const handleFeaturesBuilderComplete = (config: any) => {
+    setFeaturesConfig(config);
+    setShowFeaturesBuilder(false);
+    console.log('Features config completed:', config);
+  };
+  const handleFeaturesBuilderBack = () => {
+    setShowFeaturesBuilder(false);
+  };
+  
 
   // PricingBuilder functions
   const handlePricingBuilderComplete = (config: any) => {
@@ -1007,6 +1019,29 @@ export default function Dashboard() {
                               )}
                             </div>
                           )}
+                          {/* Special ServicesBuilder button for Services section */}
+                {section.name === "Services" && (
+                  <div className="absolute -top-1 -right-1">
+                    {selectedSections.includes(section.name) ? (
+                      <button
+                        onClick={() => setShowServicesBuilder(true)}
+                        className={`w-6 h-6 rounded-full flex items-center justify-center text-xs transition-all duration-200 hover:scale-110 shadow-lg ${
+                          servicesConfig
+                            ? 'bg-green-500 hover:bg-green-600 text-white'
+                            : 'bg-blue-500 hover:bg-blue-600 text-white'
+                        }`}
+                        title={servicesConfig ? "Services configurés - Modifier" : "Configurer les services"}
+                      >
+                        {servicesConfig ? <Check size={12} /> : <Settings size={12} />}
+                      </button>
+                    ) : (
+                      <div className="w-6 h-6 rounded-full bg-gray-400 flex items-center justify-center text-xs text-white">
+                        ?
+                      </div>
+                    )}
+                  </div>
+                )}
+
 
                                           {/* Special FeaturesBuilder button for Features section */}
                 {section.name === "Features" && (
@@ -1064,29 +1099,7 @@ export default function Dashboard() {
                   </div>
                 )}
 
-                {/* Special ServicesBuilder button for Services section */}
-                {section.name === "Services" && (
-                  <div className="absolute -top-1 -right-1">
-                    {selectedSections.includes(section.name) ? (
-                      <button
-                        onClick={() => setShowServicesBuilder(true)}
-                        className={`w-6 h-6 rounded-full flex items-center justify-center text-xs transition-all duration-200 hover:scale-110 shadow-lg ${
-                          servicesConfig
-                            ? 'bg-green-500 hover:bg-green-600 text-white'
-                            : 'bg-blue-500 hover:bg-blue-600 text-white'
-                        }`}
-                        title={servicesConfig ? "Services configurés - Modifier" : "Configurer les services"}
-                      >
-                        {servicesConfig ? <Check size={12} /> : <Settings size={12} />}
-                      </button>
-                    ) : (
-                      <div className="w-6 h-6 rounded-full bg-gray-400 flex items-center justify-center text-xs text-white">
-                        ?
-                      </div>
-                    )}
-                  </div>
-                )}
-
+                
                 {/* Special TestimonialsBuilder button for Testimonials section */}
                 {section.name === "Testimonials" && (
                   <div className="absolute -top-1 -right-1">
@@ -1628,6 +1641,14 @@ export default function Dashboard() {
             onBack={handleHeroBuilderBack}
           />
         )}
+        {/* FeaturesBuilder Modal */}
+        {showFeaturesBuilder && (
+          <FeaturesBuilder
+            projectName={projectName}
+            onComplete={handleFeaturesBuilderComplete}
+            onBack={handleFeaturesBuilderBack}
+          />
+        )}
 
         {/* PricingBuilder Modal */}
         {showPricingBuilder && (
@@ -1640,67 +1661,70 @@ export default function Dashboard() {
 
         {/* ServicesBuilder Modal */}
         {showServicesBuilder && (
-          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-            <div className="bg-white rounded-lg shadow-2xl w-full max-w-4xl h-[90vh]">
+        
+          
               <ServicesBuilder
                 projectName={projectName}
                 onComplete={handleServicesBuilderComplete}
                 onBack={handleServicesBuilderBack}
               />
-            </div>
-          </div>
+            
+          
+        )}
+
+        {/* TestimonialsBuilder Modal */}
+        {showTestimonialsBuilder && (
+          
+                <TestimonialsBuilder
+                  projectName={projectName}
+                  onComplete={handleTestimonialsBuilderComplete}
+                  onBack={handleTestimonialsBuilderBack}
+                />
         )}
 
         {/* GalleryBuilder Modal */}
         {showGalleryBuilder && (
-          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-            <div className="bg-white rounded-lg shadow-2xl w-full max-w-4xl h-[90vh]">
+         
               <GalleryBuilder
                 projectName={projectName}
                 onComplete={handleGalleryBuilderComplete}
                 onBack={handleGalleryBuilderBack}
               />
-            </div>
-          </div>
+          
         )}
 
         {/* ContactBuilder Modal */}
         {showContactBuilder && (
-          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-            <div className="bg-white rounded-lg shadow-2xl w-full max-w-4xl h-[90vh]">
+         
               <ContactBuilder
                 projectName={projectName}
                 onComplete={handleContactBuilderComplete}
                 onBack={handleContactBuilderBack}
               />
-            </div>
-          </div>
+          
         )}
 
         {/* CTABuilder Modal */}
         {showCTABuilder && (
-          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-            <div className="bg-white rounded-lg shadow-2xl w-full max-w-4xl h-[90vh]">
+       
               <CTABuilder
                 projectName={projectName}
                 onComplete={handleCTABuilderComplete}
                 onBack={handleCTABuilderBack}
               />
-            </div>
-          </div>
+         
         )}
 
         {/* FooterBuilder Modal */}
         {showFooterBuilder && (
-          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-            <div className="bg-white rounded-lg shadow-2xl w-full max-w-4xl h-[90vh]">
+          
               <FooterBuilder
                 projectName={projectName}
                 onComplete={handleFooterBuilderComplete}
                 onBack={handleFooterBuilderBack}
               />
-            </div>
-          </div>
+            
+          
         )}
       </div>
     </AuthGuard>

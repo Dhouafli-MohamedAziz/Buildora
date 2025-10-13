@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { X, ChevronLeft, ChevronRight, Settings, Check, Upload, Layout, Mail, Phone, MapPin, Globe, Heart } from 'lucide-react';
+import { X, ArrowLeft, ArrowRight, Settings, Check, Upload, Layout, Mail, Phone, MapPin, Globe, Heart } from 'lucide-react';
 
 interface FooterConfig {
   companyInfo: {
@@ -313,28 +313,34 @@ const FooterBuilder: React.FC<FooterBuilderProps> = ({ projectName, onComplete, 
         return <div className="text-white">Step not found</div>;
     }
   };
+  const themeColors = {
+        primary: 'from-purple-500 to-pink-500',
+        accent: 'purple',
+        bg: 'bg-purple-500/20',
+        border : 'border-purple-500',
+  }
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-gradient-to-br from-purple-900/90 via-purple-800/90 to-indigo-900/90 backdrop-blur-xl rounded-2xl shadow-2xl border border-white/10 w-full max-w-4xl max-h-[90vh] overflow-hidden">
-        {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-white/10">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center">
-              <Layout className="w-5 h-5 text-white" />
+          <div className="bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden">
+            {/* Header */}
+            <div className={`bg-gradient-to-r ${themeColors.primary} p-6 text-white`}>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <Layout size={24} />
+                  <div>
+                                     <h2 className="text-xl font-bold">Advanced Footer Builder</h2>
+                     <p className="text-purple-100 text-sm">Step {currentStep} of 7 - Professional Design Tools</p>
+                  </div>
+                </div>
+                <button
+                  onClick={onBack}
+                  className="p-2 hover:bg-white/20 rounded-lg transition-colors"
+                >
+                  <X size={20} />
+                </button>
+              </div>
             </div>
-            <div>
-              <h2 className="text-white font-semibold text-lg">Footer Section Builder</h2>
-              <p className="text-white/60 text-sm">Configure your footer section</p>
-            </div>
-          </div>
-          <button
-            onClick={onBack}
-            className="w-8 h-8 bg-white/10 hover:bg-white/20 rounded-lg flex items-center justify-center text-white/60 hover:text-white transition-all"
-          >
-            <X className="w-4 h-4" />
-          </button>
-        </div>
 
         {/* Progress */}
         <div className="px-6 py-4 border-b border-white/10">
@@ -368,42 +374,51 @@ const FooterBuilder: React.FC<FooterBuilderProps> = ({ projectName, onComplete, 
           {renderStepContent()}
         </div>
 
-        {/* Footer */}
-        <div className="flex items-center justify-between p-6 border-t border-white/10">
-          <button
-            onClick={() => setCurrentStep(prev => Math.max(1, prev - 1))}
-            disabled={currentStep === 1}
-            className="flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 disabled:bg-white/5 disabled:cursor-not-allowed rounded-lg text-white transition-all"
-          >
-            <ChevronLeft className="w-4 h-4" />
-            Previous
-          </button>
-          
-          <div className="flex items-center gap-3">
-            {currentStep < steps.length ? (
-              <button
-                onClick={() => setCurrentStep(prev => Math.min(steps.length, prev + 1))}
-                disabled={!canGoNext()}
-                className="flex items-center gap-2 px-6 py-2 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 disabled:from-gray-500 disabled:to-gray-600 disabled:cursor-not-allowed rounded-lg text-white font-medium transition-all"
-              >
-                Next
-                <ChevronRight className="w-4 h-4" />
-              </button>
-            ) : (
-              <button
-                onClick={() => onComplete(config)}
-                disabled={!canGoNext()}
-                className="flex items-center gap-2 px-6 py-2 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 disabled:from-gray-500 disabled:to-gray-600 disabled:cursor-not-allowed rounded-lg text-white font-medium transition-all"
-              >
-                <Check className="w-4 h-4" />
-                Complete
-              </button>
-            )}
+    {/* Footer */}
+        <div className="p-6 border-t border-gray-700 bg-gray-800/30">
+          <div className="flex items-center justify-between">
+            <button
+              onClick={() => setCurrentStep(prev => Math.max(1, prev - 1))}
+              disabled={currentStep === 1}
+              className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
+                currentStep === 1
+                  ? 'text-gray-500 cursor-not-allowed'
+                  : 'text-gray-300 hover:text-white hover:bg-gray-700'
+              }`}
+            >
+              <ArrowLeft size={16} />
+              Previous
+            </button>
+
+            <div className="flex gap-3">
+              {currentStep === 6 ? (
+                <button
+                  onClick={() => onComplete(config)}
+                  className={`flex items-center gap-2 px-6 py-2 bg-gradient-to-r ${themeColors.primary} text-white rounded-lg hover:opacity-90 transition-all`}
+                >
+                  <Check size={16} />
+                  Complete Footer
+                </button>
+              ) : (
+                <button
+                  onClick={() => setCurrentStep(prev => Math.min(6, prev + 1))}
+                  disabled={!canGoNext()}
+                  className={`flex items-center gap-2 px-6 py-2 rounded-lg transition-colors ${
+                    canGoNext()
+                      ? `bg-gradient-to-r ${themeColors.primary} text-white hover:opacity-90`
+                      : 'bg-gray-600 text-gray-400 cursor-not-allowed'
+                  }`}
+                >
+                  Next
+                  <ArrowRight size={16} />
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>
     </div>
-  );
+  )
 };
 
 export default FooterBuilder;

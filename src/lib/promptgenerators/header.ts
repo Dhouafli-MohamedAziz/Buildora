@@ -1,12 +1,14 @@
 export function generateHeaderPrompt(basePrompt: string, headerConfig: any) {
   let navigationItems = "";
+  if (headerConfig ){
   for (const item of headerConfig.navigation.items) {
   navigationItems += `\n   - ${item.label} (${item.link})${item.isActive}`;
   }
   let ctaItems = `\n   - ${headerConfig.cta.text} (${headerConfig.cta.link}) - Style: ${headerConfig.cta.style}`;
   let searchBar = `\n   - searchbar ${headerConfig.searchBar.enabled} -placeholder :${headerConfig.searchBar.placeholder} `;
   let userAcess = `\n   - userAcess ${headerConfig.userAccess.enabled} -  showLoginbutton :${headerConfig.userAccess.showLogin} - showSignupbutton : ${headerConfig.userAccess.showSignup}`;
-return `
+
+  return `
 ${basePrompt}
 
 CONFIGURATION DU HEADER :
@@ -80,6 +82,23 @@ CONFIGURATION DU HEADER :
           RESPONSIVE :
           - Desktop : Navigation visible, boutons CTA visibles
           - Mobile : Menu hamburger, navigation dans dropdown
-          ` ;
-        
+          ` 
+}
+    else {
+          return basePrompt + `Design a modern, elegant, and responsive website header that balances branding, navigation, and a clear call-to-action.
+The header should include:
+A logo area on the left displaying the brand name or logo (clickable and linking to the homepage).
+A navigation menu in the center or right with 4–6 simple links (e.g., Home, About, Services, Pricing, Contact).
+A call-to-action button on the far right, such as “Get Started” or “Contact Us,” with a distinct color and smooth hover animation.
+A mobile-friendly menu that transforms into a hamburger icon on small screens, opening a clean dropdown or drawer menu.
+Styling preferences:
+Clean, modern typography (e.g., sans-serif, medium weight).
+Adequate padding and spacing for clarity (py-3 px-6 on desktop).
+Optional sticky behavior that keeps the header visible while scrolling and adds a soft shadow.
+Use either a transparent, solid, or blurred background depending on the design context.
+Subtle hover and scroll animations for interactivity.
+Optional elements: dark/light mode toggle, search icon, or language selector.
+Goal: The header should look professional, balanced, and visually aligned with modern SaaS or portfolio websites — clean lines, gentle gradients, and intuitive layout. `;       
+}
+
 }
