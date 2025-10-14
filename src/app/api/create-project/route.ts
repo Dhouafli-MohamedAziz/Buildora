@@ -61,19 +61,7 @@ export default function Home() {
 <body class="bg-white">
     <div id="root" class="animate-fade-in">
         <!-- AI-Generated Content will be here -->
-        <div class="min-h-screen bg-white">
-            ${sections.map(section => `
-            <section class="py-16">
-                <div class="container mx-auto px-4">
-                    <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">${section}</h2>
-                    <div class="text-center text-gray-600">
-                        <p>Section ${section} en cours de génération...</p>
-                        <p class="mt-4 text-sm text-gray-500">Contenu personnalisé basé sur: "${projectDescription}"</p>
-                    </div>
-                </div>
-            </section>
-            `).join('')}
-        </div>
+    
     </div>
 </body>
 </html>`;

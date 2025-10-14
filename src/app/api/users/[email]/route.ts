@@ -3,12 +3,13 @@ import { findUserByEmail, updateUser } from '@/lib/db/route';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { email: string } }
+  context: { params: Promise<{ email: string }> }
 ) {
   try {
-    const email = decodeURIComponent(params.email);
-    const user = await findUserByEmail(email);
-    
+    const { email } = await context.params;
+    const decodedEmail = decodeURIComponent(email);
+    const user = await findUserByEmail(decodedEmail);
+
     if (!user) {
       return NextResponse.json(
         { error: 'User not found' },
@@ -16,7 +17,6 @@ export async function GET(
       );
     }
 
-    // Return user data without sensitive information
     const userData = {
       username: user.username,
       email: user.email,
@@ -36,13 +36,13 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { email: string } }
+  context: { params: Promise<{ email: string }> }
 ) {
   try {
-    const email = decodeURIComponent(params.email);
+    const { email } = await context.params;
+    const decodedEmail = decodeURIComponent(email);
     const body = await request.json();
-    
-    // Validate required fields
+
     if (!body.username || !body.email) {
       return NextResponse.json(
         { error: 'Username and email are required' },
@@ -50,8 +50,7 @@ export async function PUT(
       );
     }
 
-    // Update user data
-    const updatedUser = await updateUser(email, {
+    const updatedUser = await updateUser(decodedEmail, {
       username: body.username,
       email: body.email
     });
@@ -74,4 +73,4 @@ export async function PUT(
       { status: 500 }
     );
   }
-} 
+}

@@ -29,11 +29,8 @@ const createProductionTransporter = () => {
 
 // Initialize transporter function
 export const getTransporter = async () => {
-  if (process.env.NODE_ENV === 'production') {
     return createProductionTransporter();
-  } else {
-    return await createTestAccount();
-  }
+  
 };
 
 export const sendVerificationEmail = async (email: string) => {
@@ -94,7 +91,7 @@ export const sendVerificationEmail = async (email: string) => {
 
   try {
     const info = await transporter.sendMail(mailOptions);
-    console.log('Verification email sent:', info.messageId);
+    console.log('Verification email sent:asba', info.messageId);
     return { success: true, messageId: info.messageId };
   } catch (error) {
     console.error('Error sending verification email:', error);

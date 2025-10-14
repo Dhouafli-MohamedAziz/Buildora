@@ -3,11 +3,12 @@ import { findUserByEmail } from '@/lib/db/route';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { email: string } }
+  context: { params: Promise<{ email: string }> }
 ) {
   try {
-    const email = decodeURIComponent(params.email);
-    const user = await findUserByEmail(email);
+    const { email } = await context.params;
+    const decodedEmail = decodeURIComponent(email);
+    const user = await findUserByEmail(decodedEmail);
     
     if (!user) {
       return NextResponse.json(
@@ -16,7 +17,6 @@ export async function GET(
       );
     }
 
-    // Create export data (excluding sensitive information)
     const exportData = {
       user: {
         username: user.username,
@@ -29,15 +29,15 @@ export async function GET(
       export_version: '1.0'
     };
 
-    // Convert to JSON string
     const jsonData = JSON.stringify(exportData, null, 2);
     
-    // Return as downloadable file
     return new NextResponse(jsonData, {
       status: 200,
       headers: {
         'Content-Type': 'application/json',
-        'Content-Disposition': `attachment; filename="buildora-data-${new Date().toISOString().split('T')[0]}.json"`
+        'Content-Disposition': `attachment; filename="buildora-data-${new Date()
+          .toISOString()
+          .split('T')[0]}.json"`
       }
     });
   } catch (error) {
@@ -47,4 +47,6 @@ export async function GET(
       { status: 500 }
     );
   }
-} 
+}
+
+

@@ -3,11 +3,12 @@ import { findUserByEmail } from '@/lib/db/route';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { email: string } }
+  context: { params: Promise<{ email: string }> }
 ) {
   try {
-    const email = decodeURIComponent(params.email);
-    const user = await findUserByEmail(email);
+    const { email } = await context.params;
+    const decodedEmail = decodeURIComponent(email);
+    const user = await findUserByEmail(decodedEmail);
     
     if (!user) {
       return NextResponse.json(
@@ -16,12 +17,16 @@ export async function GET(
       );
     }
 
-    // For now, return a mock subscription (in a real app, this would come from a subscriptions table)
+    // Mock subscription (replace later with real DB query)
     const subscription = {
-      plan: 'trial', // Default to trial for new users
+      plan: 'trial',
       status: 'trial' as const,
-      currentPeriodEnd: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], // 30 days from now
-      nextBillingDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+      currentPeriodEnd: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
+        .toISOString()
+        .split('T')[0],
+      nextBillingDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)
+        .toISOString()
+        .split('T')[0],
     };
 
     return NextResponse.json(subscription);
@@ -32,4 +37,4 @@ export async function GET(
       { status: 500 }
     );
   }
-} 
+}

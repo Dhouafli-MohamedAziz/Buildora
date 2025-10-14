@@ -15,23 +15,16 @@ const authOptions: NextAuthConfig = {
       async authorize(credentials: Partial<Record<'email' | 'password', unknown>>) {
         const email = typeof credentials?.email === 'string' ? credentials.email : '';
         const password = typeof credentials?.password === 'string' ? credentials.password : '';
-        console.log('[AUTH][DEBUG] Received credentials:', { email, password });
         if (!email || !password) {
-          console.log('[AUTH][DEBUG] Missing email or password');
           return null;
         }
         const trimmedEmail = email.trim().toLowerCase();
         const user = await findUserByEmail(trimmedEmail);
-        console.log('[AUTH][DEBUG] User found:', !!user, user);
         if (!user) {
-          console.log('[AUTH][DEBUG] No user found for email:', trimmedEmail);
           return null;
         }
-        console.log('[AUTH][DEBUG] DB hash:', user.password);
         const isValid = await bcrypt.compare(password, user.password);
-        console.log('[AUTH][DEBUG] bcrypt.compare result:', isValid);
         if (!isValid) {
-          console.log('[AUTH][DEBUG] Password does not match');
           return null;
         }
         await updateUserLastLogin(user.id);

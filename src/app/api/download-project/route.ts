@@ -8,7 +8,7 @@ export async function POST(req: Request) {
     const { projectName } = await req.json();
     const projectPath = path.join(process.cwd(), 'projects', projectName);
 
-    // Check if project exists
+    // Check if project existsgmail
     try {
       await fs.access(projectPath);
     } catch {

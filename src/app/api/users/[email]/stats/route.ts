@@ -3,11 +3,12 @@ import { findUserByEmail, pool } from '@/lib/db/route';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { email: string } }
+  context: { params: Promise<{ email: string }> }
 ) {
   try {
-    const email = decodeURIComponent(params.email);
-    const user = await findUserByEmail(email);
+    const { email } = await context.params;
+    const decodedEmail = decodeURIComponent(email);
+    const user = await findUserByEmail(decodedEmail);
     
     if (!user) {
       return NextResponse.json(
@@ -21,11 +22,11 @@ export async function GET(
       'SELECT COUNT(*) as count FROM projects WHERE user_id = ?',
       [user.id]
     );
-    
+
     const projectsCount = (projectsResult as any)[0]?.count || 0;
 
     const stats = {
-      projects_created: projectsCount
+      projects_created: projectsCount,
     };
 
     return NextResponse.json(stats);
@@ -36,4 +37,4 @@ export async function GET(
       { status: 500 }
     );
   }
-} 
+}
