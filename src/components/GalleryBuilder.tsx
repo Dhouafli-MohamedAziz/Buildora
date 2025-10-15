@@ -10,7 +10,7 @@ interface GalleryConfig {
   lightbox: { enabled: boolean; showNavigation: boolean; };
   categories: { enabled: boolean; items: string[]; };
   cta: { enabled: boolean; text: string; link: string; };
-  images: { items: Array<{ id: string; file: File | null; preview: string | null; caption: string; category: string; }>; };
+  images: { items: Array<{ id: string; file: File | null; preview: string | undefined; caption: string; category: string; }>; };
   styling: {
     customColors: { primary: string; secondary: string; accent: string; background: string; title: string; text: string; overlay: string; };
     typography: { fontFamily: 'sans' | 'serif' | 'mono' | 'display'; fontSize: 'small' | 'medium' | 'large'; fontWeight: 'normal' | 'medium' | 'bold'; };
